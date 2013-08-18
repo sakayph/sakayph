@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leafy</title>
+    <link rel="stylesheet" href="leaflet/leaflet.css">
+    <!--[if IE]>
+    <link rel="stylesheet" href="leaflet/leaflet.ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div id="sidebar">
+      <div id="search"></div>
+      <div id="routes"></div>
+      <div id="itinerary"></div>
+    </div>
+    <div id="map"></div>
+
+    <script type="ractive" id="searchTemplate">
+      <input id="query" type="text" name="{{query}}" placeholder="Search..." proxy-enter="search">
+    </script>
+
+    <script type="ractive" id="routerTemplate">
+      <h4>Help</h4>
+      <p>
+        The from and to fields are just for display.
+      </p>
+      <p>
+        Right-click anywhere to bring up a popup and select your start
+        and end destinations. You can also search for an address.
+      </p>
+      <p>
+        For web service information and other clients, see <a href="http://maps.pleasantprogrammer.com">maps.pleasantprogrammer.com</a>
+      </p>
+      <h4>Options</h4>
+      {{#targets}}
+      <div>
+        <label for="from">From:</label>
+        <input disabled value="{{fromAddress}}">
+        <button proxy-tap="swap">swap</button>
+      </div>
+      <div>
+        <label for="to">To:</label>
+        <input disabled value="{{toAddress}}">
+      </div>
+      <div>
+        <label for="mode">Mode:</label>
+        <select id="mode" name="{{mode}}">
+          <option value="TRANSIT,WALK">Transit</option>
+          <option value="WALK">Walk Only</option>
+          <option value="BICYCLE">Bike Only</option>
+        </select>
+      </div>
+      {{/targets}}
+      <hr>
+      <h3>Routes:</h3>
+      <ul>
+      {{#results:num}}
+        <li
+            class="{{(num == selected ? 'selected' : '')}}"
+            proxy-tap="select:{{num}}"
+            proxy-hover="hover:{{num}}">
+          #{{(num+1)}} - {{(f(duration))}}
+        </li>
+      {{/results}}
+      {{^results}}
+        <li>No results</li>
+      {{/results}}
+      </ul>
+    </script>
+
+    <script type="ractive" id="itineraryTemplate">
+      <h3>Steps:</h3>
+      {{#current}}
+      <ol>
+      {{#legs:i}}
+      <li>
+        {{^(isTransit(mode))}}
+          <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
+            <b>{{mode}}</b> {{from.name}} to {{to.name}} ({{(f(duration))}})
+          </span>
+          {{#.showSteps}}
+          <ul>
+            {{#steps}}
+              <li><b>{{( formatDirection(relativeDirection) )}}</b> on to {{streetName}}</li>
+            {{/steps}}
+          </ul>
+          {{/.showSteps}}
+        {{/()}}
+
+        {{#(isTransit(mode))}}
+          <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
+            <b>{{( getRealMode(mode, routeId) )}}</b> {{route}} ({{(f(duration))}})
+          </span>
+          {{#.showSteps}}
+          <ul>
+            <li><b>board</b> {{from.name}}</li>
+            <li><b>alight</b> {{to.name}}</li>
+          </ul>
+          {{/.showSteps}}
+        {{/()}}
+      </li>
+      {{/legs}}
+      </ol>
+      {{/current}}
+    </script>
+
+    <script type="ractive" id="popupTemplate">
+      <p>{{address}}</p>
+      <button proxy-tap="setStart">Set as starting point</button>
+      <button proxy-tap="setEnd">Set as destination</button>
+      <p>{{latlng.lat}},{{latlng.lng}}</p>
+    </script>
+
+    <script src="js/reqwest.min.js"></script>
+    <script src="js/q.min.js"></script>
+    <script src="js/Ractive.min.js"></script>
+    <script src="leaflet/leaflet.js"></script>
+    <script src="js/util.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="js/geocoder.js"></script>
+    <script src="js/otp.js"></script>
+    <script src="js/map.js"></script>
+  </body>
+</html>

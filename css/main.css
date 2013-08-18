@@ -1,0 +1,42 @@
+body {
+  margin: 0px;
+  font-family: Helvetica;
+}
+
+html, body, #map, #sidebar { height: 100%; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0.5em 0px;
+}
+
+ul {
+  margin: 0px;
+}
+
+label {
+  display: inline-block;
+  width: 3em;
+}
+
+#query {
+  font-size: 100%;
+  width: 220px;
+}
+
+#map {
+  float: right;
+  width: calc(100% - 300px);
+}
+
+#sidebar {
+  float: left;
+  width: 300px;
+  padding: 10px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+li.selected {
+  background: #ffc;
+}
