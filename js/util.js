@@ -1,4 +1,5 @@
 function formatDuration(duration) {
+  if(isNaN(duration)) return '';
   var minutes = Math.floor(duration / 1000 / 60);
 
   function helper(minutes) {
