@@ -90,7 +90,7 @@
 
         {{#(isTransit(mode))}}
           <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
-            <b>{{( getRealMode(mode, routeId) )}}</b> {{route}} ({{(f(duration))}})
+            <b>{{mode}}</b> {{route}} ({{(f(duration))}})
           </span>
           {{#.showSteps}}
           <ul>

@@ -149,21 +149,8 @@ var itinerary = new Ractive({
       return dir.toLowerCase().replace('_', ' ');
     },
     isTransit: function(mode) {
-      return mode == 'BUS' || mode == 'RAIL';
+      return mode == 'JEEP' || mode == 'BUS' || mode == 'RAIL';
     },
-    getRealMode: function(mode, routeId) {
-      if(mode == 'BUS') {
-        if(routeId.indexOf('PUJ') >= 0) {
-          return 'JEEP';
-        }
-        else {
-          return 'BUS';
-        }
-      }
-      else {
-        return mode;
-      }
-    }
   }
 });
 itinerary.on({
@@ -256,6 +243,9 @@ router.observe('targets', function(targets) {
       results.forEach(function(itinerary) {
         itinerary.legs.forEach(function(leg) {
           leg.points = decodePoints(leg.legGeometry.points);
+          if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
+            leg.mode = 'JEEP';
+          }
         });
       });
       self.set('results', results);
