@@ -90,7 +90,7 @@
 
         {{#(isTransit(mode))}}
           <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
-            <b>{{mode}}</b> {{route}} ({{(f(duration))}})
+            <b>{{mode}}</b> {{route}} ({{(f(duration))}}{{#fare}} - P{{fare}}{{/fare}})
           </span>
           {{#.showSteps}}
           <ul>
@@ -119,6 +119,7 @@
     <script src="leaflet/leaflet.js"></script>
     <script src="leaflet/google.js"></script>
     <script src="js/util.js"></script>
+    <script src="js/fare.js"></script>
     <script src="js/geocoder.js"></script>
     <script src="js/otp.js"></script>
     <script src="js/map.js"></script>

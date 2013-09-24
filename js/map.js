@@ -246,6 +246,13 @@ router.observe('targets', function(targets) {
           if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
             leg.mode = 'JEEP';
           }
+
+          if(leg.mode == 'BUS') {
+            leg.fare = calculateFare(leg.distance, 'pub_aircon', false);
+          }
+          else if(leg.mode == 'JEEP') {
+            leg.fare = calculateFare(leg.distance, 'puj', false);
+          }
         });
       });
       self.set('results', results);
