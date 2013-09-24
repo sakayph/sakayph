@@ -1,11 +1,6 @@
 var geocoder = function() {
   var scriptDeferred = Q.defer();
-  google.load('maps', '3', {
-    other_params: 'sensor=false',
-    callback: function() {
-      scriptDeferred.resolve(new google.maps.Geocoder());
-    }
-  });
+  scriptDeferred.resolve(new google.maps.Geocoder());
 
   function callGeocode(options) {
     var requestDeferred = Q.defer();
