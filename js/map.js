@@ -24,32 +24,35 @@ search.on({
   clearSearch: function(event) {
     this.layer.clearLayers();
   },
-  search: function(event) {
-    event.node.blur();
-    var self = this;
-    progress.setLoading(true);
-    var bounds = map.getBounds();
-    self.fire('clearSearch');
-
-    geocoder.fromName(self.get('query'), bounds)
-    .then(function(results) {
-      var first = true;
-      results.forEach(function(loc) {
-        var latlng = g2lLatLng(loc.geometry.location);
-        var marker = L.marker(latlng);
-        var popup = new Popup(marker);
-        marker.addTo(self.layer);
-        if(first) {
-          marker.openPopup();
-          map.setView(latlng, 14);
-        }
-      });
-    })
-    .fin(function() {
-      progress.setLoading(false);
-    });
-  }
 });
+
+(function() {
+  var self = search;
+  var input = document.getElementById("query");
+  var searchBox = new google.maps.places.SearchBox(input);
+
+  google.maps.event.addListener(searchBox, 'places_changed', function() {
+    search.fire('clearSearch');
+    var places = searchBox.getPlaces();
+    var first = true;
+    places.forEach(function(place) {
+      var latlng = g2lLatLng(place.geometry.location);
+      var marker = L.marker(latlng);
+      var popup = new Popup(marker);
+      marker.addTo(self.layer);
+      if(first) {
+        marker.openPopup();
+        map.setView(latlng, 14);
+      }
+    });
+  });
+
+  map.on('moveend', function() {
+    var bounds = l2gBounds(map.getBounds());
+    searchBox.setBounds(bounds);
+  });
+})();
+
 
 var Popup = (function() {
   var _class = Ractive.extend({

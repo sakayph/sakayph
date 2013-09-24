@@ -39,6 +39,18 @@ function g2lLatLng(gLatLng) {
   return new L.LatLng(gLatLng.lat(), gLatLng.lng());
 }
 
+/* Converting Leaflet to Google */
+function l2gBounds(bounds) {
+  return new google.maps.LatLngBounds(
+    l2gLatLng(bounds.getSouthWest()),
+    l2gLatLng(bounds.getNorthEast())
+  );
+}
+
+function l2gLatLng(latlng) {
+  return new google.maps.LatLng(latlng.lat, latlng.lng);
+}
+
 /* Decoding OTP polylines */
 function decodeNumber(value, index) {
   if (value.length == 0)
