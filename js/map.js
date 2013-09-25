@@ -247,12 +247,7 @@ router.observe('targets', function(targets) {
             leg.mode = 'JEEP';
           }
 
-          if(leg.mode == 'BUS') {
-            leg.fare = calculateFare(leg.distance, 'pub_aircon', false);
-          }
-          else if(leg.mode == 'JEEP') {
-            leg.fare = calculateFare(leg.distance, 'puj', false);
-          }
+          leg.fare = calculateFare(leg);
         });
       });
       self.set('results', results);

@@ -1,5 +1,5 @@
 var calculateFare = function() {
-  var fares = {
+  var busFares = {
     pub_aircon: [
       { regular: 0, discounted: 0 },
       { regular: 12.00, discounted: 9.50 },
@@ -181,14 +181,175 @@ var calculateFare = function() {
     ]
   };
 
-  return function(distance, type, discounted) {
-    distance = Math.ceil(distance / 1000);
-    fare = fares[type][distance];
-    if(discounted) {
-      return fare.discounted;
-    }
-    else {
+  var railFares = {
+    'ROUTE_880747': { // LRT1
+      standardFares: [
+        { regular: 0, stored: 0 },
+        { regular: 12, stored: 12 },
+        { regular: 12, stored: 12 },
+        { regular: 12, stored: 12 },
+        { regular: 12, stored: 12 },
+        { regular: 15, stored: 13 },
+        { regular: 15, stored: 13 },
+        { regular: 15, stored: 13 },
+        { regular: 15, stored: 13 },
+        { regular: 15, stored: 14 },
+        { regular: 15, stored: 14 },
+        { regular: 15, stored: 14 },
+        { regular: 15, stored: 14 },
+        { regular: 15, stored: 15 },
+        { regular: 15, stored: 15 },
+        { regular: 15, stored: 15 },
+        { regular: 15, stored: 15 },
+        { regular: 15, stored: 15 },
+      ],
+      specialFares: [
+        { regular: 0, stored: 0 },
+        { regular: 15, stored: 13 },
+        { regular: 15, stored: 13 },
+        { regular: 15, stored: 14 },
+        { regular: 15, stored: 14 },
+        { regular: 15, stored: 15 },
+        { regular: 15, stored: 15 },
+        { regular: 15, stored: 15 },
+        { regular: 20, stored: 16 },
+        { regular: 20, stored: 16 },
+        { regular: 20, stored: 16 },
+        { regular: 20, stored: 17 },
+        { regular: 20, stored: 17 },
+        { regular: 20, stored: 17 },
+        { regular: 20, stored: 18 },
+        { regular: 20, stored: 18 },
+        { regular: 20, stored: 18 },
+        { regular: 20, stored: 19 },
+        { regular: 20, stored: 19 },
+        { regular: 20, stored: 20 },
+      ],
+      stations: [
+        "LTFRB_4944", // Baclaran LRT
+        "LTFRB_4945", // EDSA LRT
+        "LTFRB_4946", // Libertad LRT
+        "LTFRB_4947", // Gil Puyat LRT
+        "LTFRB_4948", // Vito Cruz LRT
+        "LTFRB_4949", // Quirino Ave LRT
+        "LTFRB_4950", // Pedro Gil LRT
+        "LTFRB_4951", // UN Ave LRT
+        "LTFRB_4952", // Central Terminal LRT
+        "LTFRB_4953", // Carriedo LRT
+        "LTFRB_4954", // Doroteo Jose LRT
+        "LTFRB_4955", // Bambang LRT
+        "LTFRB_4956", // Tayuman LRT
+        "LTFRB_4957", // Blumentritt LRT
+        "LTFRB_4958", // Abad Santos LRT
+        "LTFRB_4959", // R. Papa LRT
+        "LTFRB_4960", // 5th Ave LRT
+        "LTFRB_4961", // Monumento LRT
+        "LTFRB_4962", // LRT Balintawak
+        "LTFRB_4963", // Roosevelt LRT
+      ],
+      getFare: function(from, to) {
+        var fromIndex = this.stations.indexOf(from);
+        var toIndex = this.stations.indexOf(to);
+        if(fromIndex >= 17 || toIndex >= 17) { // use special fares
+          return this.specialFares[Math.abs(fromIndex - toIndex)].regular;
+        }
+        else { // use standard fares
+          return this.standardFares[Math.abs(fromIndex - toIndex)].regular;
+        }
+      }
+    },
+
+    "ROUTE_880801": { // LRT2
+      fares: [
+        0,
+        12,
+        12,
+        12,
+        13,
+        13,
+        13,
+        14,
+        14,
+        14,
+        15
+      ],
+      stations: [
+        "LTFRB_4977", // Recto LRT
+        "LTFRB_4978", // Legarda LRT
+        "LTFRB_4979", // Pureza LRT
+        "LTFRB_4980", // V. Mapa LRT
+        "LTFRB_4981", // J. Ruiz LRT
+        "LTFRB_4982", // Gilmore LRT
+        "LTFRB_4983", // Betty Go Belmonte LRT
+        "LTFRB_4984", // Cubao LRT
+        "LTFRB_4985", // Anonas LRT
+        "LTFRB_4986", // Katipunan LRT
+        "LTFRB_4987", // Santolan LRT
+      ],
+      getFare: function(from, to) {
+        var fromIndex = this.stations.indexOf(from);
+        var toIndex = this.stations.indexOf(to);
+        return this.fares[Math.abs(fromIndex - toIndex)];
+      }
+    },
+
+    "ROUTE_880854": { // MRT3
+      fares: [
+        0,
+        10,
+        10,
+        11,
+        11,
+        12,
+        12,
+        12,
+        14,
+        14,
+        14,
+        15,
+        15,
+      ],
+      stations: [
+        "STOP_880847", // North Avenue MRT
+        "LTFRB_4965", // Quezon MRT
+        "LTFRB_4966", // Kamuning MRT
+        "LTFRB_4967", // Cubao MRT
+        "LTFRB_4968", // Santolan MRT
+        "LTFRB_4969", // Ortigas MRT
+        "LTFRB_4970", // Shaw MRT
+        "LTFRB_4971", // Boni MRT
+        "LTFRB_4972", // Guadalupe MRT
+        "LTFRB_4973", // Buendia MRT
+        "LTFRB_4974", // Ayala MRT
+        "LTFRB_4975", // Magellanes MRT
+        "LTFRB_4976", // Taft Ave MRT
+      ],
+      getFare: function(from, to) {
+        var fromIndex = this.stations.indexOf(from);
+        var toIndex = this.stations.indexOf(to);
+        return this.fares[Math.abs(fromIndex - toIndex)];
+      }
+    },
+    "ROUTE_880872": { // PNR
+      getFare: function(from, to) {
+        return undefined;
+      }
+    },
+  };
+
+  return function(leg) {
+    var type = leg.mode;
+    if(type == 'BUS' || type == 'JEEP') {
+      type = 'puj';
+      if(type == 'BUS') {
+        type = 'pub_aircon';
+      }
+      var distance = Math.ceil(leg.distance / 1000);
+      fare = busFares[type][distance];
       return fare.regular;
+    }
+    else if(type == 'RAIL') {
+      return railFares[leg.routeId].getFare(leg.from.stopId.id, leg.to.stopId.id);
     }
   };
 }();
