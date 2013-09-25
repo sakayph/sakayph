@@ -146,6 +146,7 @@ var itinerary = new Ractive({
   data: {
     f: formatDuration,
     formatDirection: function(dir) {
+      if(dir == undefined) return '';
       return dir.toLowerCase().replace('_', ' ');
     },
     isTransit: function(mode) {
