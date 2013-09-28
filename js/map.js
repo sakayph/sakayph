@@ -68,12 +68,18 @@ var Modal = (function() {
     template: '#modalTemplate',
     init: function(options) {
       var self = this;
+      var modalStyle = self.el.style;
+      modalStyle.width = 'auto';
+      modalStyle.margin = "0 0 0 "+(-self.el.clientWidth / 2)+"px";
       this.on({
         send: function() {
           this.set('sending', true);
           sakay.send(self.get('number'), itinerary.get('current')).then(function() {
             options.modal.close();
-            picoModal("Your message will be sent in a short while.");
+            picoModal({
+              content: "Your message will be sent in a short while.",
+              modalStyles: {}
+            });
           });
         }
       });
@@ -82,8 +88,8 @@ var Modal = (function() {
 
   return function(itinerary) {
     var modal = picoModal({
-      width: 300,
-      closeButton: false
+      closeButton: false,
+      modalStyles: {}
     });
     return new _class({
       el: modal.modalElem,

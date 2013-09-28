@@ -44,3 +44,10 @@ li.selected {
 .hidden {
   display: none;
 }
+
+.pico-content {
+  background: white;
+  border-radius: 5px;
+  padding: 20px;
+}
+
