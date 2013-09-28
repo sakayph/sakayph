@@ -6,7 +6,7 @@ otp.metadata.then(function(data) {
 });
 
 var progress = new Ractive({
-  el: '#search',
+  el: '#routes',
   append: true,
   template: ' {{#loading}}loading{{/loading}}'
 })
@@ -14,45 +14,34 @@ progress.setLoading = function(loading) {
   this.set('loading', loading);
 }
 
-var search = new Ractive({
-  el: '#search',
-  template: '#searchTemplate',
-});
+var search = {};
 search.layer = L.layerGroup([]).addTo(map);
 
-search.on({
-  clearSearch: function(event) {
-    this.layer.clearLayers();
-  },
-});
-
-(function() {
-  var self = search;
-  var input = document.getElementById("query");
+function addSearch(id, target) {
+  var input = document.getElementById(id);
   var searchBox = new google.maps.places.SearchBox(input);
 
   google.maps.event.addListener(searchBox, 'places_changed', function() {
-    search.fire('clearSearch');
+    search.layer.clearLayers();
     var places = searchBox.getPlaces();
-    var first = true;
-    places.forEach(function(place) {
+    if(places.length > 0) {
+      var place = places[0];
       var latlng = g2lLatLng(place.geometry.location);
       var marker = L.marker(latlng);
       var popup = new Popup(marker);
-      marker.addTo(self.layer);
-      if(first) {
-        marker.openPopup();
+      marker.addTo(search.layer);
+      setTimeout(function() {
         map.setView(latlng, 14);
-      }
-    });
+      }, 0);
+      router.setTarget(target, latlng, true);
+    }
   });
 
   map.on('moveend', function() {
     var bounds = l2gBounds(map.getBounds());
     searchBox.setBounds(bounds);
   });
-})();
-
+}
 
 var Popup = (function() {
   var _class = Ractive.extend({
@@ -62,40 +51,8 @@ var Popup = (function() {
 
       function setSomething(a, b) {
         return function(event) {
-          var targets = router.get('targets');
-          search.fire('clearSearch');
           var latlng = this.get('latlng');
-
-          var marker;
-          if(targets[a]) {
-            marker = targets[a];
-            marker.setLatLng(latlng);
-            marker.unbindPopup();
-          }
-          else {
-            marker = L.marker(latlng);
-          }
-
-          var popup = new Popup(marker);
-
-          if(!targets[a]) {
-            marker.addTo(map);
-            targets[a] = marker;
-          }
-
-          geocoder.fromLatLng(self.get('latlng')).then(function(data) {
-            var address = data[0].formatted_address;
-            router.set('targets.'+a+'Address', address);
-          });
-
-          if(targets[b]) {
-            if(targets[b].getLatLng() == latlng) { // handle setting start as destination
-              map.removeLayer(targets[b]);
-              targets[b] = null;
-            }
-          }
-          router.update('targets');
-          map.closePopup();
+          router.setTarget(a, latlng, false);
         }
       }
 
@@ -174,7 +131,7 @@ itinerary.on({
       map.removeLayer(leg.polyline);
     }
   }
-})
+});
 
 var router = new Ractive({
   el: '#routes',
@@ -219,6 +176,49 @@ router.unhighlightRoute = function(index) {
   if(this.layer.hasLayer(polyline)) {
     this.layer.removeLayer(polyline);
   }
+}
+
+router.setTarget = function(name, latlng, address) {
+  var a = name;
+  var b = "to";
+  if(a == "to") {
+    b = "from";
+  }
+
+  var targets = router.get('targets');
+
+  var marker;
+  if(targets[a]) {
+    marker = targets[a];
+    marker.setLatLng(latlng);
+    marker.unbindPopup();
+  }
+  else {
+    marker = L.marker(latlng);
+  }
+
+  var popup = new Popup(marker);
+
+  if(!targets[a]) {
+    marker.addTo(map);
+    targets[a] = marker;
+  }
+
+  if(!address) {
+    geocoder.fromLatLng(latlng).then(function(data) {
+      var address = data[0].formatted_address;
+      document.getElementById(a).value = address;
+    });
+  }
+
+  if(targets[b]) {
+    if(targets[b].getLatLng() == latlng) { // handle setting start as destination
+      map.removeLayer(targets[b]);
+      targets[b] = null;
+    }
+  }
+  router.update('targets');
+  map.closePopup();
 }
 
 router.observe('selected', function(val) {
@@ -274,9 +274,12 @@ router.on({
     var tmp = targets.from;
     targets.from = targets.to;
     targets.to = tmp;
-    tmp = targets.fromAddress;
-    targets.fromAddress = targets.toAddress;
-    targets.toAddress = tmp;
+
+    var fromInput = document.getElementById('from');
+    var toInput = document.getElementById('to');
+    tmp = fromInput.value;
+    fromInput.value = toInput.value;
+    toInput.value = tmp;
     this.update('targets');
   },
   hover: function(event, index) {
@@ -290,3 +293,7 @@ router.on({
     }
   }
 });
+
+addSearch('from', 'from');
+addSearch('to', 'to');
+

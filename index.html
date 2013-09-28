@@ -11,38 +11,19 @@
   </head>
   <body>
     <div id="sidebar">
-      <div id="search"></div>
       <div id="routes"></div>
       <div id="itinerary"></div>
     </div>
     <div id="map"></div>
 
-    <script type="ractive" id="searchTemplate">
-      <input id="query" type="text" placeholder="Search...">
-    </script>
-
     <script type="ractive" id="routerTemplate">
-      <h4>Help</h4>
-      <p>
-        The from and to fields are just for display.
-      </p>
-      <p>
-        Right-click anywhere to bring up a popup and select your start
-        and end destinations. You can also search for an address.
-      </p>
-      <p>
-        For web service information and other clients, see <a href="http://maps.pleasantprogrammer.com">maps.pleasantprogrammer.com</a>
-      </p>
-      <h4>Options</h4>
       {{#targets}}
       <div>
-        <label for="from">From:</label>
-        <input disabled value="{{fromAddress}}">
+        <input id="from" placeholder="From">
         <button proxy-tap="swap">swap</button>
       </div>
       <div>
-        <label for="to">To:</label>
-        <input disabled value="{{toAddress}}">
+        <input id="to" placeholder="To">
       </div>
       <div>
         <label for="mode">Mode:</label>
