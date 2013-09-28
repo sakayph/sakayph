@@ -6,9 +6,8 @@ otp.metadata.then(function(data) {
 });
 
 var progress = new Ractive({
-  el: '#routes',
-  append: true,
-  template: ' {{#loading}}loading{{/loading}}'
+  el: '#progress',
+  template: '#progressWidgetTemplate'
 })
 progress.setLoading = function(loading) {
   this.set('loading', loading);
@@ -16,8 +15,7 @@ progress.setLoading = function(loading) {
 
 var trackWidget = new Ractive({
   el: '#track',
-  append: true,
-  template: '<input type="checkbox" checked="{{disallowTracking}}"> I don\'t want to be tracked',
+  template: '#trackWidgetTemplate',
   data: {
     disallowTracking: !sakay.canLog()
   }
