@@ -47,7 +47,16 @@
             class="{{(num == selected ? 'selected' : '')}}"
             proxy-tap="select:{{num}}"
             proxy-hover="hover:{{num}}">
-          #{{(num+1)}} - {{(f(duration))}}
+          {{#legs}}
+            {{#(mode == 'RAIL')}}
+              <span class="badge-{{(route)}}">{{route}}</span>
+            {{/()}}
+            {{^(mode == 'RAIL')}}
+              <span class="badge-{{(mode)}}">{{mode}}</span>
+            {{/()}}
+          {{/legs}}
+          -
+          {{(f(duration))}}
         </li>
       {{/results}}
       {{^results}}
