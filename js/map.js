@@ -242,6 +242,9 @@ router.observe('targets', function(targets) {
     if(data.plan) {
       var results = data.plan.itineraries;
       results.forEach(function(itinerary) {
+        itinerary.legs = itinerary.legs.filter(function(leg) {
+          return leg.duration > 60000;
+        });
         itinerary.legs.forEach(function(leg) {
           leg.points = decodePoints(leg.legGeometry.points);
           if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
