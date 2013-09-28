@@ -27,6 +27,15 @@ trackWidget.observe('disallowTracking', function(val) {
   sakay.setCanLog(!val);
 });
 
+var smsWidget = new Ractive({
+  el: '#sms',
+  template: '#smsWidgetTemplate'
+});
+
+smsWidget.on('send', function() {
+  new Modal();
+});
+
 var search = {};
 search.layer = L.layerGroup([]).addTo(map);
 
@@ -55,6 +64,35 @@ function addSearch(id, target) {
     searchBox.setBounds(bounds);
   });
 }
+
+var Modal = (function() {
+  var _class = Ractive.extend({
+    template: '#modalTemplate',
+    init: function(options) {
+      var self = this;
+      this.on({
+        send: function() {
+          this.set('sending', true);
+          sakay.send(self.get('number'), itinerary.get('current')).then(function() {
+            options.modal.close();
+            picoModal("Your message will be sent in a short while.");
+          });
+        }
+      });
+    }
+  });
+
+  return function(itinerary) {
+    var modal = picoModal({
+      width: 300,
+      closeButton: false
+    });
+    return new _class({
+      el: modal.modalElem,
+      modal: modal
+    });
+  }
+})();
 
 var Popup = (function() {
   var _class = Ractive.extend({
@@ -124,6 +162,10 @@ var itinerary = new Ractive({
     },
   }
 });
+itinerary.observe('current', function(val) {
+  smsWidget.el.className = (val == undefined) ? 'hidden' : '';
+});
+
 itinerary.on({
   showSteps: function(event) {
     var path = event.keypath+'.showSteps';

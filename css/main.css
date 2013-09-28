@@ -40,3 +40,7 @@ input[type=text] {
 li.selected {
   background: #ffc;
 }
+
+.hidden {
+  display: none;
+}

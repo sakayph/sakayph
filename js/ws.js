@@ -90,6 +90,17 @@ var sakay = function() {
         toLat: toTarget.lat,
         toLng: toTarget.lng
       });
+    },
+    send: function(number, itinerary) {
+      return callApi('/send', {
+        target: number,
+        itinerary: JSON.stringify(itinerary, function(key, value) {
+          if(key == '_ractive') return undefined;
+          if(key == 'points') return undefined;
+          if(key == 'polyline') return undefined;
+          return value;
+        })
+      });
     }
   }
 }();
