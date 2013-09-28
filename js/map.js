@@ -34,10 +34,18 @@ smsWidget.on('send', function() {
   new Modal();
 });
 
-var search = {};
+var search = new Ractive({
+  el: '#search',
+  template: '#searchTemplate',
+  data: {
+    targets: {
+      mode: 'TRANSIT,WALK'
+    }
+  }    
+});
 search.layer = L.layerGroup([]).addTo(map);
 
-function addSearch(id, target) {
+search.addInput = function(id, target) {
   var input = document.getElementById(id);
   var searchBox = new google.maps.places.SearchBox(input);
 
@@ -53,7 +61,7 @@ function addSearch(id, target) {
       setTimeout(function() {
         map.setView(latlng, 14);
       }, 0);
-      router.setTarget(target, latlng, true);
+      search.setTarget(target, latlng, true);
     }
   });
 
@@ -62,6 +70,116 @@ function addSearch(id, target) {
     searchBox.setBounds(bounds);
   });
 }
+
+search.setTarget = function(name, latlng, address) {
+  var a = name;
+  var b = "to";
+  if(a == "to") {
+    b = "from";
+  }
+
+  var targets = search.get('targets');
+
+  var marker;
+  if(targets[a]) {
+    marker = targets[a];
+    marker.setLatLng(latlng);
+    marker.unbindPopup();
+  }
+  else {
+    marker = L.marker(latlng);
+  }
+
+  var popup = new Popup(marker);
+
+  if(!targets[a]) {
+    marker.addTo(map);
+    targets[a] = marker;
+  }
+
+  if(!address) {
+    geocoder.fromLatLng(latlng).then(function(data) {
+      var address = data[0].formatted_address;
+      document.getElementById(a).value = address;
+    });
+  }
+
+  if(targets[b]) {
+    if(targets[b].getLatLng() == latlng) { // handle setting start as destination
+      map.removeLayer(targets[b]);
+      targets[b] = null;
+    }
+  }
+  search.update('targets');
+  map.closePopup();
+}
+
+search.observe('targets', function(targets) {
+  if(!targets.from || !targets.to) return;
+  var self = this;
+  progress.setLoading(true);
+
+  if(sakay.canLog()) {
+    var fromName = document.getElementById('from').value;
+    var toName = document.getElementById('to').value;
+
+    sakay.log(fromName, targets.from.getLatLng(), toName, targets.to.getLatLng());
+  }
+
+  otp.route(
+    targets.from.getLatLng(),
+    targets.to.getLatLng(),
+    targets.mode
+  )
+  .then(function(data) {
+    router.reset();
+    if(data.plan) {
+      var results = data.plan.itineraries;
+      results.forEach(function(itinerary) {
+        itinerary.legs = itinerary.legs.filter(function(leg) {
+          return leg.duration > 60000;
+        });
+        itinerary.legs.forEach(function(leg) {
+          leg.points = decodePoints(leg.legGeometry.points);
+          if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
+            leg.mode = 'JEEP';
+          }
+
+          leg.fare = calculateFare(leg);
+        });
+      });
+      router.set('results', results);
+      router.set('selected', -1);
+      router.set('selected', 0);
+    }
+    else {
+      router.set('results', null);
+      itinerary.set('current', null);
+    }
+  })
+  .fin(function() {
+    progress.setLoading(false);
+  });
+});
+
+search.on({
+  swap: function(event) {
+    var targets = this.get('targets');
+    var tmp = targets.from;
+    targets.from = targets.to;
+    targets.to = tmp;
+
+    var fromInput = document.getElementById('from');
+    var toInput = document.getElementById('to');
+    tmp = fromInput.value;
+    fromInput.value = toInput.value;
+    toInput.value = tmp;
+    this.update('targets');
+  },
+});
+
+search.addInput('from', 'from');
+search.addInput('to', 'to');
 
 var Modal = (function() {
   var _class = Ractive.extend({
@@ -107,7 +225,7 @@ var Popup = (function() {
       function setSomething(a, b) {
         return function(event) {
           var latlng = this.get('latlng');
-          router.setTarget(a, latlng, false);
+          search.setTarget(a, latlng, false);
         }
       }
 
@@ -198,9 +316,6 @@ var router = new Ractive({
   debug: true,
   data: {
     f: formatDuration,
-    targets: {
-      mode: 'TRANSIT,WALK'
-    }
   }
 });
 router.layer = L.layerGroup([]).addTo(map);
@@ -237,49 +352,6 @@ router.unhighlightRoute = function(index) {
   }
 }
 
-router.setTarget = function(name, latlng, address) {
-  var a = name;
-  var b = "to";
-  if(a == "to") {
-    b = "from";
-  }
-
-  var targets = router.get('targets');
-
-  var marker;
-  if(targets[a]) {
-    marker = targets[a];
-    marker.setLatLng(latlng);
-    marker.unbindPopup();
-  }
-  else {
-    marker = L.marker(latlng);
-  }
-
-  var popup = new Popup(marker);
-
-  if(!targets[a]) {
-    marker.addTo(map);
-    targets[a] = marker;
-  }
-
-  if(!address) {
-    geocoder.fromLatLng(latlng).then(function(data) {
-      var address = data[0].formatted_address;
-      document.getElementById(a).value = address;
-    });
-  }
-
-  if(targets[b]) {
-    if(targets[b].getLatLng() == latlng) { // handle setting start as destination
-      map.removeLayer(targets[b]);
-      targets[b] = null;
-    }
-  }
-  router.update('targets');
-  map.closePopup();
-}
-
 router.observe('selected', function(val) {
   if(val == undefined || val < 0) return;
   var results = this.get('results');
@@ -287,70 +359,9 @@ router.observe('selected', function(val) {
   this.showRoute(val);
 });
 
-router.observe('targets', function(targets) {
-  if(!targets.from || !targets.to) return;
-  var self = this;
-  progress.setLoading(true);
-
-  if(sakay.canLog()) {
-    var fromName = document.getElementById('from').value;
-    var toName = document.getElementById('to').value;
-
-    sakay.log(fromName, targets.from.getLatLng(), toName, targets.to.getLatLng());
-  }
-
-  otp.route(
-    targets.from.getLatLng(),
-    targets.to.getLatLng(),
-    targets.mode
-  )
-  .then(function(data) {
-    self.reset();
-    if(data.plan) {
-      var results = data.plan.itineraries;
-      results.forEach(function(itinerary) {
-        itinerary.legs = itinerary.legs.filter(function(leg) {
-          return leg.duration > 60000;
-        });
-        itinerary.legs.forEach(function(leg) {
-          leg.points = decodePoints(leg.legGeometry.points);
-          if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
-            leg.mode = 'JEEP';
-          }
-
-          leg.fare = calculateFare(leg);
-        });
-      });
-      self.set('results', results);
-      self.set('selected', -1);
-      self.set('selected', 0);
-    }
-    else {
-      self.set('results', null);
-      itinerary.set('current', null);
-    }
-  })
-  .fin(function() {
-    progress.setLoading(false);
-  });
-});
-
 router.on({
   select: function(event, index) {
     this.set('selected', index);
-  },
-  swap: function(event) {
-    var targets = this.get('targets');
-    var tmp = targets.from;
-    targets.from = targets.to;
-    targets.to = tmp;
-
-    var fromInput = document.getElementById('from');
-    var toInput = document.getElementById('to');
-    tmp = fromInput.value;
-    fromInput.value = toInput.value;
-    toInput.value = tmp;
-    this.update('targets');
   },
   hover: function(event, index) {
     if(index != this.get('selected')) {
@@ -363,7 +374,4 @@ router.on({
     }
   }
 });
-
-addSearch('from', 'from');
-addSearch('to', 'to');
 

@@ -12,6 +12,8 @@
   <body>
     <div id="sidebar">
       <div id="progress"></div>
+      <div id="search"></div>
+      <hr>
       <div id="routes"></div>
       <div id="itinerary"></div>
       <div id="sms"></div>
@@ -19,8 +21,7 @@
     </div>
     <div id="map"></div>
 
-    <script type="ractive" id="routerTemplate">
-      {{#targets}}
+    <script type="ractive" id="searchTemplate">
       <div>
         <input type="text" id="from" placeholder="From">
         <button proxy-tap="swap">swap</button>
@@ -36,8 +37,9 @@
           <option value="BICYCLE">Bike Only</option>
         </select>
       </div>
-      {{/targets}}
-      <hr>
+    </script>
+
+    <script type="ractive" id="routerTemplate">
       <h3>Routes:</h3>
       <ul>
       {{#results:num}}
