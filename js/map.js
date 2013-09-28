@@ -14,6 +14,19 @@ progress.setLoading = function(loading) {
   this.set('loading', loading);
 }
 
+var trackWidget = new Ractive({
+  el: '#track',
+  append: true,
+  template: '<input type="checkbox" checked="{{disallowTracking}}"> I don\'t want to be tracked',
+  data: {
+    disallowTracking: !sakay.canLog()
+  }
+});
+
+trackWidget.observe('disallowTracking', function(val) {
+  sakay.setCanLog(!val);
+});
+
 var search = {};
 search.layer = L.layerGroup([]).addTo(map);
 
@@ -232,6 +245,14 @@ router.observe('targets', function(targets) {
   if(!targets.from || !targets.to) return;
   var self = this;
   progress.setLoading(true);
+
+  if(sakay.canLog()) {
+    var fromName = document.getElementById('from').value;
+    var toName = document.getElementById('to').value;
+
+    sakay.log(fromName, targets.from.getLatLng(), toName, targets.to.getLatLng());
+  }
+
   otp.route(
     targets.from.getLatLng(),
     targets.to.getLatLng(),

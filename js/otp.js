@@ -23,3 +23,34 @@ var otp = function() {
     }
   }
 }();
+
+var sakay = function() {
+  var API = 'http://sms.sakay.ph/api';
+
+  function callApi(endpoint, data) {
+    return Q(reqwest({
+      url: API+endpoint,
+      type: 'jsonp',
+      data: data
+    }));
+  }
+
+  return {
+    canLog: function() {
+      return localStorage.getItem('disallow_log') != 'true';
+    },
+    setCanLog: function(val) {
+      localStorage.setItem('disallow_log', !val);
+    },
+    log: function(fromName, fromTarget, toName, toTarget) {
+      callApi('/log', {
+        fromName: fromName,
+        fromLat: fromTarget.lat,
+        fromLng: fromTarget.lng,
+        toName: toName,
+        toLat: toTarget.lat,
+        toLng: toTarget.lng
+      });
+    }
+  }
+}();

@@ -18,7 +18,7 @@ label {
   width: 3em;
 }
 
-input {
+input[type=text] {
   font-size: 100%;
   width: 220px;
 }

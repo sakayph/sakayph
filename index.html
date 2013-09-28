@@ -13,17 +13,18 @@
     <div id="sidebar">
       <div id="routes"></div>
       <div id="itinerary"></div>
+      <div id="track"></div>
     </div>
     <div id="map"></div>
 
     <script type="ractive" id="routerTemplate">
       {{#targets}}
       <div>
-        <input id="from" placeholder="From">
+        <input type="text" id="from" placeholder="From">
         <button proxy-tap="swap">swap</button>
       </div>
       <div>
-        <input id="to" placeholder="To">
+        <input type="text" id="to" placeholder="To">
       </div>
       <div>
         <label for="mode">Mode:</label>
