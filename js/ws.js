@@ -67,9 +67,10 @@ var sakay = function() {
 
   function callApi(endpoint, data) {
     return Q(reqwest({
+      method: 'post',
       url: API+endpoint,
-      type: 'jsonp',
-      data: data
+      data: data,
+      type: 'text'
     }));
   }
 
