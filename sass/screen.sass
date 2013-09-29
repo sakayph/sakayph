@@ -1,0 +1,200 @@
+@import compass/reset
+@import compass/css3
+
+// vars!
+
+$brown: rgb(112,45,22)
+$light-brown: #E57C48
+$dark-brown: #350805
+$light-blue: #5498AF
+$light-blue-shadow: #333
+
+$header-bg-open: linear-gradient(to bottom, rgb(255, 111, 0), rgb(255, 148, 18))
+$header-bg-closed: #FF8612
+
+strong
+  font-weight: 500
+
+// states!
+
+
+body.mapmode
+  header
+    height: 74px
+    background: $header-bg-closed
+
+
+// styles!
+
+body
+  font-family: "Museo Sans"
+
+.fix-later
+  display: none
+
+.container
+  margin: 0 auto
+  width: 960px
+  position: relative
+
+header
+  height: 410px
+  background: $header-bg-open
+  padding-top: 1px
+  position: relative
+  overflow: hidden
+
+header h1, header h2
+  text-align: center
+
+header h1
+  margin: 75px 0 60px 0
+  font: 62px "Museo Slab"
+  color: $brown
+
+header h2
+  font-weight: 100
+  color: #eee
+  font-size: 26px
+  p:nth-child(2)
+    margin-top: 4px
+    font-size: 22px
+    strong
+      font-weight: 500
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5)
+
+#vroom
+  position: absolute
+  display: block
+  bottom: 8px
+  text-align: center
+  width: 100%
+  img
+    display: inline-block
+    margin: 0 10px
+    &:nth-child(1)
+      +animation(bounce 0.5s linear 0 infinite)
+    &:nth-child(2)
+      +animation(bounce 1.2s linear 0 infinite)
+    &:nth-child(3)
+      +animation(bounce 0.9s linear 0 infinite)
+
++keyframes(bounce)
+  0%
+    +transform(translateY(0px))
+  33%
+    +transform(translateY(3px))
+  66%
+    +transform(translateY(-1px))
+  100%
+    +transform(translateY(0px))
+
+#ground
+  position: absolute
+  bottom: 0
+  right: 0
+  width: 200%
+  height: 20px
+  background: url("../img/ground.svg") repeat-x
+  +animation(pan 15s linear 0 infinite)
+
++keyframes(pan)
+  from
+    +transform(translateX(0))
+  to
+    +transform(translateX(1024px))
+
+#search-container
+  position: absolute
+  top: 420px
+  width: 100%
+
+#swap
+  width: 24px
+  height: 24px
+  box-sizing: border-box
+  background: $light-blue
+  border: 0
+  border-radius: 50%
+  box-shadow: 0 4px 0 $light-blue-shadow
+  // for now!
+  display: none
+  position: absolute
+
+#search input[type="text"]
+  font: 18px "Museo Sans"
+  font-weight: 100
+  width: 400px
+  padding: 12px
+  box-sizing: border-box
+  border: 0
+  border-radius: 8px
+  background: $dark-brown
+  color: white
+  // WHY HTML5 WHY
+  &::-webkit-input-placeholder 
+    color: $light-brown
+  &::-moz-placeholder 
+    color: $light-brown
+  &:-ms-input-placeholder
+    color: $light-brown
+  // REMOVE SOMEHOW WHEN TOGGLING
+  margin-bottom: 18px
+
+#get-route
+  font: 18px "Museo Sans"
+  font-weight: 500
+  color: white
+  box-sizing: border-box
+  background: $light-blue
+  border: 0
+  border-radius: 8px
+  box-shadow: 0 4px 0 $light-blue-shadow
+  float: left
+  // toggle these
+  padding: 15px 50px 15px 11px
+  margin-right: 24px
+  // fix this
+  &:active
+    margin-top: 2px
+    box-shadow: 0 2px 0 $light-blue-shadow
+
+.view-toggle
+  opacity: 0.6
+  margin-top: 10px
+  cursor: pointer
+  transition: 0.1s all
+  &:hover
+    opacity: 1
+    text-decoration: underline
+
+.landinginfo
+  width: 460px
+  font-weight: 100
+  color: #fff
+  font-size: 18px
+  h3
+    font-size: 30px
+    margin: 20px 0
+  h4
+    color: $light-brown
+    margin-bottom: 30px
+
+#do-things
+  padding-top: 10px
+  background: $brown
+  height: 420px
+
+#sms-info
+  float: right
+  .iphone
+    float: left
+    margin-right: 24px
+  p
+    margin-bottom: 12px
+
+
+
+
+
+
