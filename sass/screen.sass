@@ -12,6 +12,8 @@ $light-blue-shadow: #333
 $header-bg-open: linear-gradient(to bottom, rgb(255, 111, 0), rgb(255, 148, 18))
 $header-bg-closed: #FF8612
 
+$state-transition: 0.4s
+
 strong
   font-weight: 500
 
@@ -20,8 +22,52 @@ strong
 
 body.mapmode
   header
-    height: 74px
+    height: 72px
     background: $header-bg-closed
+    h1
+      font-size: 32px
+      width: 170px
+      top: 13px
+      right: 8px
+      margin-right: 0
+    h2
+      opacity: 0
+    #vroom
+      +transform(translateY(100px))
+      opacity: 0
+    #ground
+      +transform(translateY(20px))
+      +animation(none)
+
+  #search-container
+    top: 10px
+    left: 0
+    width: calc(100% - 200px)
+    h3, h4
+      display: none
+    input[type="text"]
+      width: 270px
+    #search
+      width: 830px
+      margin-left: 12px
+    #from
+      top: 0
+    #to
+      top: 0
+      left: 280px
+    #get-route
+      top: 0
+      left: 560px
+      padding: 11px 12px
+      margin-right: 2px
+    .view-toggle
+      display: none
+
+  #home
+    height: 0
+
+  #map
+    height: calc(100% - 73px)
 
 
 // styles!
@@ -38,6 +84,8 @@ body
   position: relative
 
 header
+  -webkit-transition: $state-transition height
+  transition: $state-transition height
   height: 410px
   background: $header-bg-open
   padding-top: 1px
@@ -45,14 +93,22 @@ header
   overflow: hidden
 
 header h1, header h2
+  transition: $state-transition all
+  -webkit-transition: $state-transition all
   text-align: center
 
 header h1
-  margin: 75px 0 60px 0
+  position: absolute
+  top: 75px
+  right: 50%
+  width: 290px
+  margin-right: - (290px/2)
+  text-align: center
   font: 62px "Museo Slab"
   color: $brown
 
 header h2
+  margin-top: 210px
   font-weight: 100
   color: #eee
   font-size: 26px
@@ -64,6 +120,8 @@ header h2
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5)
 
 #vroom
+  -webkit-transition: -webkit-transform $state-transition, opacity 2s
+  transition: transform $state-transition, opacity 2s 
   position: absolute
   display: block
   bottom: 8px
@@ -90,6 +148,8 @@ header h2
     +transform(translateY(0px))
 
 #ground
+  transition: $state-transition all
+  -webkit-transition: $state-transition all
   position: absolute
   bottom: 0
   right: 0
@@ -108,6 +168,11 @@ header h2
   position: absolute
   top: 420px
   width: 100%
+  -webkit-transition: all $state-transition
+  transition: all $state-transition
+  *
+    -webkit-transition: all $state-transition
+    transition: all $state-transition
 
 #swap
   width: 24px
@@ -121,7 +186,12 @@ header h2
   display: none
   position: absolute
 
+#search
+  position: relative
+  margin-left: calc((100% - 960px)/2)
+
 #search input[type="text"]
+  position: absolute
   font: 18px "Museo Sans"
   font-weight: 100
   width: 400px
@@ -138,10 +208,15 @@ header h2
     color: $light-brown
   &:-ms-input-placeholder
     color: $light-brown
-  // REMOVE SOMEHOW WHEN TOGGLING
-  margin-bottom: 18px
+
+#from
+  top: 97px
+#to
+  top: 162px
 
 #get-route
+  position: absolute
+  top: 230px
   font: 18px "Museo Sans"
   font-weight: 500
   color: white
@@ -150,7 +225,6 @@ header h2
   border: 0
   border-radius: 8px
   box-shadow: 0 4px 0 $light-blue-shadow
-  float: left
   // toggle these
   padding: 15px 50px 15px 11px
   margin-right: 24px
@@ -160,6 +234,10 @@ header h2
     box-shadow: 0 2px 0 $light-blue-shadow
 
 .view-toggle
+  position: relative
+  top: 140px
+  left: 180px
+  width: 220px
   opacity: 0.6
   margin-top: 10px
   cursor: pointer
@@ -173,15 +251,29 @@ header h2
   font-weight: 100
   color: #fff
   font-size: 18px
-  h3
-    font-size: 30px
-    margin: 20px 0
   h4
     color: $light-brown
     margin-bottom: 30px
 
+#map
+  height: 0
+  overflow: hidden
+
+#home
+  -webkit-transition: $state-transition all
+  transition: $state-transition all
+  overflow: hidden
+
+#home section
+  padding-top: 11px
+
+section
+  h3
+    font-weight: 100
+    font-size: 30px
+    margin: 20px 0
+
 #do-things
-  padding-top: 10px
   background: $brown
   height: 420px
 
@@ -193,8 +285,10 @@ header h2
   p
     margin-bottom: 12px
 
-
-
+#analytics
+  color: #fff
+  height: 260px
+  background: $light-blue
 
 
 
