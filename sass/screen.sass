@@ -14,6 +14,9 @@ $header-bg-closed: #FF8612
 
 $state-transition: 0.8s
 
+$museo-sans-stack: "Museo Sans", museo-sans, sans-serif
+$museo-slab-stack: "Museo Slab", museo-slab, sans-serif
+
 strong
   font-weight: 500
 
@@ -84,7 +87,7 @@ body.mapmode
 
 body, html
   height: 100%
-  font-family: "Museo Sans"
+  font-family: $museo-sans-stack
 
 .hidden
   display: none
@@ -118,7 +121,7 @@ header h1
   width: 290px
   margin-right: - (290px/2)
   text-align: center
-  font: 62px "Museo Slab"
+  font: 62px $museo-slab-stack
   color: $brown
 
 header h2
@@ -208,7 +211,7 @@ header h2
 
 #search input[type="text"]
   position: absolute
-  font: 18px "Museo Sans"
+  font: 18px $museo-sans-stack
   font-weight: 100
   width: 400px
   padding: 12px
@@ -233,7 +236,7 @@ header h2
 #get-route
   position: absolute
   top: 230px
-  font: 18px "Museo Sans"
+  font: 18px $museo-sans-stack
   font-weight: 500
   color: white
   box-sizing: border-box
