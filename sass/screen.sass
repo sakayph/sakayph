@@ -25,8 +25,9 @@ strong
 
 body.mapmode
   header
-    height: 72px
+    height: 70px
     background: $header-bg-closed
+    border-bottom: 6px solid $dark-brown
     h1
       font-size: 32px
       width: 170px
@@ -69,19 +70,17 @@ body.mapmode
       margin-right: 2px
     .view-toggle
       display: none
-
   #home
     height: 0
-
+  #do-things
+    height: 0
+    padding-top: 0
   #map-container
-    height: calc(100% - 73px)
-
+    max-height: 1080px
   #sidebar
     padding: 12px
     height: auto
     opacity: 1
-
-
 
 // styles!
 
@@ -101,8 +100,8 @@ body, html
   position: relative
 
 header
-  -webkit-transition: $state-transition height
-  transition: $state-transition height
+  -webkit-transition: height $state-transition, border $state-transition
+  transition: height $state-transition, border $state-transition
   height: 410px
   background: $header-bg-open
   padding-top: 1px
@@ -279,7 +278,10 @@ header h2
   height: 100%
 
 #map-container
-  height: 0
+  -webkit-transition: $state-transition all
+  transition: $state-transition all
+  max-height: 0
+  height: calc(100% - 77px)
   overflow: hidden
 
 #home
@@ -293,12 +295,17 @@ header h2
 section
   h3
     font-weight: 100
-    font-size: 30px
-    margin: 20px 0
+    font-size: 32px
+    margin: 22px 0
 
 #do-things
+  -webkit-transition: $state-transition all
+  transition: $state-transition all
   background: $brown
-  height: 420px
+  height: 410px
+  overflow: hidden
+  box-sizing: border-box
+  padding-top: 9px
 
 #sms-info
   float: right
@@ -319,7 +326,7 @@ section
   left: 10px
   border-radius: 7px
   color: #fff
-  width: 32%
+  width: 30%
   height: 0
   padding: 0
   opacity: 0

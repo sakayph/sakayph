@@ -31,6 +31,18 @@
       <div id="search" class="landinginfo">
       </div>
     </section>
+      <section id="do-things">
+        <div class="container">
+          <div id="sms-info" class="landinginfo">
+            <h3>Go mobile with SMS</h3>
+            <h4>Get directions on your mobile phone.</h4>
+            <img class="iphone" src="img/iphone.svg" alt="This is an iPhone, but it works fabulously with normal phones too!">
+            <p>Send to <strong>0999 802 5648</strong>:</p>
+            <p>ROUTE <strong>origin</strong> TO <strong>destination</strong></p>
+            <!-- <em>TODO: finish the rest of this. Animated examples</em> -->
+          </div>         
+        </div>
+      </section>
     <div id="map-container">
       <div id="map">
       </div>      
@@ -43,18 +55,6 @@
       <div id="track"></div>
     </div>
     <div id="home">
-      <section id="do-things">
-        <div class="container">
-          <div id="sms-info" class="landinginfo">
-            <h3>Go mobile with SMS</h3>
-            <h4>Get directions on your mobile phone.</h4>
-            <img class="iphone" src="img/iphone.svg" alt="This is an iPhone, but it works fabulously with normal phones too!">
-            <p>Send to <strong>0999 802 5648</strong>:</p>
-            <p>ROUTE <strong>origin</strong> TO <strong>destination</strong></p>
-            <em>TODO: finish the rest of this. Animated examples</em>
-          </div>         
-        </div>
-      </section>
       <section id="analytics">
         <div class="container">
           <h3>Search statistics</h3>
@@ -186,7 +186,7 @@
     <script type="ractive" id="trackWidgetTemplate">
       <input type="checkbox" checked="{{disallowTracking}}"> Opt-out of logging
     </script>
-    
+
     <script type="text/javascript">
       (function() {
         var config = {
