@@ -1,35 +1,91 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Leafy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=980">
+    <title>Sakay.ph — Commute directions for jeepneys, buses, and trains</title>
     <link rel="stylesheet" href="leaflet/leaflet.css">
     <!--[if IE]>
     <link rel="stylesheet" href="leaflet/leaflet.ie.css">
     <![endif]-->
-    <link rel="stylesheet" href="css/main.css">
-    <meta charset="utf-8">
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
+    <header>
+      <h1 onclick="viewMode('toggle');">sakay.ph</h1>
+      <h2>
+        <p>Commuting is hard. It doesn't have to be.</p>
+        <p>Get <strong>jeepney</strong>, <strong>bus</strong>, and <strong>train</strong> directions in Metro Manila.</p>
+      </h2>
+      <figure id="vroom">
+        <img id="jeep" alt="Jeep!" src="img/jeep.svg">
+        <img id="bus" alt="Bus!" src="img/bus.svg">
+        <img id="train" alt="Train!" src="img/train.svg">      
+      </figure>
+      <figure id="ground">
+        <!-- I am a non-semantic element. nice to meet you! -->
+      </figure>
+    </header>
+    <section id="search-container">
+      <div id="search" class="landinginfo">
+      </div>
+    </section>
+    <div id="map-container">
+      <div id="map">
+      </div>      
+    </div>
     <div id="sidebar">
       <div id="progress"></div>
-      <div id="search"></div>
-      <hr>
       <div id="routes"></div>
       <div id="itinerary"></div>
       <div id="sms"></div>
       <div id="track"></div>
     </div>
-    <div id="map"></div>
+    <div id="home">
+      <section id="do-things">
+        <div class="container">
+          <div id="sms-info" class="landinginfo">
+            <h3>Go mobile with SMS</h3>
+            <h4>Get directions on your mobile phone.</h4>
+            <img class="iphone" src="img/iphone.svg" alt="This is an iPhone, but it works fabulously with normal phones too!">
+            <p>Send to <strong>0999 802 5648</strong>:</p>
+            <p>ROUTE <strong>origin</strong> TO <strong>destination</strong></p>
+            <em>TODO: finish the rest of this. Animated examples</em>
+          </div>         
+        </div>
+      </section>
+      <section id="analytics">
+        <div class="container">
+          <h3>Search statistics</h3>
+          <p><strong>COMING SOON</strong> — Commonly searched routes, time-of-day graphs, and route visualizations.</p>
+
+        </div>
+      </section>
+      <section id="faq">
+        <div class="container">          
+          <h3>Frequently Asked Questions</h3>
+
+
+        </div>          
+        
+      </section>
+    </div>
 
     <script type="ractive" id="searchTemplate">
+      <h3>Find a route now</h3>
+      <h4>Enter your starting point, and your destination.</h4>
       <div>
-        <input type="text" id="from" placeholder="From">
-        <button proxy-tap="swap">swap</button>
+        <input type="text" id="from" placeholder="Starting Point">
+        <input type="text" id="to" placeholder="Destination">
+        <button id="swap" proxy-tap="swap"><img src="img/swap.svg" alt="Swap Origin and Destination">
+        </button>
+        <button id="get-route">Get Route</button>
+        <p class="view-toggle" onclick="viewMode('map');">
+          Visual thinker? You can <br>
+          <strong>go directly to the map.</strong>
+        </p>
       </div>
-      <div>
-        <input type="text" id="to" placeholder="To">
-      </div>
-      <div>
+      <div class="fix-later">
         <label for="mode">Mode:</label>
         <select id="mode" name="{{mode}}">
           <option value="TRANSIT,WALK">Transit</option>
@@ -127,9 +183,18 @@
     </script>
 
     <script type="ractive" id="trackWidgetTemplate">
-      <input type="checkbox" checked="{{disallowTracking}}"> I don't want to be tracked
+      <input type="checkbox" checked="{{disallowTracking}}"> Opt-out of logging
     </script>
-
+    
+    <script type="text/javascript">
+      (function() {
+        var config = {
+          kitId: 'sek3kre',
+          scriptTimeout: 3000
+        };
+        var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+      })();
+    </script>
     <script src="js/reqwest.min.js"></script>
     <script src="js/q.min.js"></script>
     <script src="js/Ractive.min.js"></script>

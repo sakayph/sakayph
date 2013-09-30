@@ -63,6 +63,7 @@ search.addInput = function(id, target) {
       }, 0);
       search.setTarget(target, latlng, true);
     }
+    viewMode("map");
   });
 
   map.on('moveend', function() {

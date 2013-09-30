@@ -70,7 +70,7 @@ body.mapmode
   #home
     height: 0
 
-  #map
+  #map-container
     height: calc(100% - 73px)
 
   #sidebar
@@ -82,8 +82,12 @@ body.mapmode
 
 // styles!
 
-body
+body, html
+  height: 100%
   font-family: "Museo Sans"
+
+.hidden
+  display: none
 
 .fix-later
   display: none
@@ -176,6 +180,7 @@ header h2
 
 #search-container
   position: absolute
+  z-index: 10
   top: 420px
   width: 100%
   -webkit-transition: all $state-transition
@@ -267,6 +272,10 @@ header h2
     margin-bottom: 30px
 
 #map
+  min-height: 300px
+  height: 100%
+
+#map-container
   height: 0
   overflow: hidden
 
@@ -318,7 +327,13 @@ section
   background: $light-blue
   // height: 0
   overflow: hidden
+  overflow-y: scroll
 
+.pico-content
+  background: white
+  border-radius: 5px
+  padding: 20px
 
-
+li.selected
+  background: #ffc
 

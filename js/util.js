@@ -105,4 +105,33 @@ function decodePoints(n) {
   return points;
 }
 
+function viewMode(input) {
+  
+  var body = document.body;
+
+  if (input === "map") {
+    if (body.className === "") {
+      body.className = "mapmode";
+    }
+  }
+
+  if (input === "home") {
+    if (body.className === "mapmode") {
+      body.className = "";
+    }
+  }
+
+  if (input === "toggle") {
+    if (body.className === "") {
+      body.className = "mapmode";
+    } else {
+      body.className = "";
+    }
+  }
+
+  var evt = document.createEvent('UIEvents');
+  evt.initUIEvent('resize', true, false,window,0);
+  window.dispatchEvent(evt);
+}
+
 
