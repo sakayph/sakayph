@@ -66,6 +66,25 @@ search.addInput = function(id, target) {
     viewMode("map");
   });
 
+  // sorry thomas, I'll clean this up
+
+  search.on('go', function() {
+    search.layer.clearLayers();
+    var places = searchBox.getPlaces();
+    if(places.length > 0) {
+      var place = places[0];
+      var latlng = g2lLatLng(place.geometry.location);
+      var marker = L.marker(latlng);
+      var popup = new Popup(marker);
+      marker.addTo(search.layer);
+      setTimeout(function() {
+        map.setView(latlng, 14);
+      }, 0);
+      search.setTarget(target, latlng, true);
+    }
+    viewMode("map")
+  });
+
   map.on('moveend', function() {
     var bounds = l2gBounds(map.getBounds());
     searchBox.setBounds(bounds);
