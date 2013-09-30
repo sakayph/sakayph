@@ -103,7 +103,7 @@ header
   -webkit-transition: height $state-transition, border $state-transition
   transition: height $state-transition, border $state-transition
   height: 410px
-  background: $header-bg-open
+  +background($header-bg-open)
   padding-top: 1px
   position: relative
   overflow: hidden
@@ -122,6 +122,7 @@ header h1
   text-align: center
   font: 62px $museo-slab-stack
   color: $brown
+  cursor: pointer
 
 header h2
   margin-top: 210px
@@ -211,7 +212,7 @@ header h2
 #search input[type="text"]
   position: absolute
   font: 18px $museo-sans-stack
-  font-weight: 100
+  font-weight: 300
   width: 400px
   padding: 12px
   box-sizing: border-box
@@ -370,7 +371,7 @@ section
   min-width: 290px
   max-width: 410px
   max-height: calc(100% - 140px)
-  background: $light-blue
+  background: darken($light-blue, 10%)
   overflow: hidden
   overflow-y: scroll
   h3
@@ -424,12 +425,18 @@ section
       display: inline-block
     .badge
       display: inline-block
-      font-size: 75%
-      padding: 3px
+      font-size: 80%
+      padding: 1px 3px
       color: #fff
       font-weight: 700
       border-radius: 2px
       color: #fff
+      border: 1px solid #fff
+    ul
+      margin-top: 10px
+      border-left: 2px solid #fff
+      padding-left: 8px
+      margin-left: 8px
   li.selected
     color: #fff
     .info
