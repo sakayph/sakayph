@@ -1,3 +1,11 @@
+function formatFare(fare, incomplete) {
+  var f = fare.toFixed(2).replace(".00", "");
+  if(incomplete) {
+    f = f + "*";
+  }
+  return f;
+}
+
 function formatDuration(duration) {
   if(isNaN(duration)) return '';
   var minutes = Math.floor(duration / 1000 / 60);
