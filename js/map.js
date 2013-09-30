@@ -140,14 +140,27 @@ search.observe('targets', function(targets) {
         itinerary.legs = itinerary.legs.filter(function(leg) {
           return leg.duration > 60000;
         });
+
+        var incomplete = false;
+        itinerary.fare = 0;
         itinerary.legs.forEach(function(leg) {
           leg.points = decodePoints(leg.legGeometry.points);
           if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
             leg.mode = 'JEEP';
           }
 
+          if(leg.routeId == "ROUTE_880872") {
+            incomplete = true;
+          }
+
           leg.fare = calculateFare(leg);
+          if(leg.fare) {
+            itinerary.fare += leg.fare;
+            leg.fare = formatFare(itinerary.fare);
+          }
         });
+
+        itinerary.fare = formatFare(itinerary.fare, incomplete);
       });
       router.set('results', results);
       router.set('selected', -1);
