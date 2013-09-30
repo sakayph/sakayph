@@ -318,7 +318,43 @@ section
 #analytics
   color: #fff
   height: 260px
-  background: $light-blue
+  background-color: darken($light-blue, 6%)
+  background-image: url("../img/data-bg.svg")
+  background-position: center
+
+#faq
+  padding: 1px
+  background: #e6e6e6
+  font-size: 14px
+  .columns
+    line-height: 22px
+    +column-count(3)
+    +column-gap(18px)
+    margin: 50px 0
+    a
+      color: #111
+      text-decoration: none
+      border-bottom: 1px #777 solid
+      &:hover
+        color: #000
+        background: #ccc
+        border-bottom: 1px #333 solid
+  h3
+    color: #444
+    margin-bottom: 22px
+  h4
+    font-size: 18px
+    line-height: 22px
+    margin-bottom: 11px
+  p
+    margin-bottom: 11px
+    color: #444
+    padding-left: 5px
+
+
+
+
+
 
 #sidebar
   position: absolute
