@@ -335,15 +335,78 @@ section
   max-width: 410px
   max-height: calc(100% - 140px)
   background: $light-blue
-  // height: 0
   overflow: hidden
   overflow-y: scroll
+  h3
+    font-size: 21px
+    font-weight: 100
+    margin-bottom: 10px
+
+#routes
+  margin-bottom: 10px
+  li
+    -webkit-transition: all 0.2s
+    transition: all 0.2s
+    cursor: pointer
+    list-style: none
+    margin-bottom: 10px
+    border-left: 2px solid #fff
+    padding-left: 9px
+    .info
+      display: inline-block
+      font-weight: 100
+    .badge
+      display: inline-block
+      font-size: 75%
+      padding: 3px
+      margin-bottom: 6px
+      color: #fff
+      font-weight: 700
+      border-radius: 2px
+      color: #fff
+      border: 1px solid #fff
+  li:hover
+    padding-left: 18px
+  li.selected
+    color: #fff
+    .info
+      color: #fff
+    .badge
+      background: #fff
+      color: $light-blue
+      border: 1px solid transparent
+
+#itinerary
+  li
+    font-weight: 100
+    -webkit-transition: all 0.2s
+    transition: all 0.2s
+    cursor: pointer
+    list-style: none
+    margin-bottom: 10px
+    .info
+      display: inline-block
+    .badge
+      display: inline-block
+      font-size: 75%
+      padding: 3px
+      color: #fff
+      font-weight: 700
+      border-radius: 2px
+      color: #fff
+  li.selected
+    color: #fff
+    .info
+      color: #fff
+    .badge
+      background: #fff
+      color: $light-blue
+      border: 1px solid transparent
+
 
 .pico-content
   background: white
   border-radius: 5px
   padding: 20px
 
-li.selected
-  background: #ffc
 

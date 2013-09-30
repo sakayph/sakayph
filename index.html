@@ -97,40 +97,42 @@
     </script>
 
     <script type="ractive" id="routerTemplate">
-      <h3>Routes:</h3>
-      <ul>
+      <h3>routes</h3>
+      <ul class="icons-ul">
       {{#results:num}}
         <li
             class="{{(num == selected ? 'selected' : '')}}"
             proxy-tap="select:{{num}}"
-            proxy-hover="hover:{{num}}">
+            proxy-hover="hover:{{num}}"><i class="icon-li {{(num == selected ? 'icon-check-sign' : 'icon-check-empty')}}"></i>
           {{#legs}}
             {{#(mode == 'RAIL')}}
-              <span class="badge-{{(route)}}">{{route}}</span>
+              <span class="badge badge-{{(route)}}">{{route}}</span>
             {{/()}}
             {{^(mode == 'RAIL')}}
-              <span class="badge-{{(mode)}}">{{mode}}</span>
+              <span class="badge badge-{{(mode)}}">{{mode}}</span>
             {{/()}}
           {{/legs}}
-          -
+          <br>
+          <span class="info">
           {{(f(duration))}}
+          </span>
         </li>
       {{/results}}
       {{^results}}
-        <li>No results</li>
+        <li><i class="icon-li icon-remove"></i>No results</li>
       {{/results}}
       </ul>
     </script>
 
     <script type="ractive" id="itineraryTemplate">
-      <h3>Steps:</h3>
+      <h3>steps</h3>
       {{#current}}
       <ol>
       {{#legs:i}}
       <li>
         {{^(isTransit(mode))}}
           <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
-            <b>{{mode}}</b> {{from.name}} to {{to.name}} ({{(f(duration))}})
+            <b class="badge">{{mode}}</b> {{from.name}} to {{to.name}} ({{(f(duration))}})
           </span>
           {{#.showSteps}}
           <ul>
@@ -143,7 +145,7 @@
 
         {{#(isTransit(mode))}}
           <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
-            <b>{{mode}}</b> {{route}} ({{(f(duration))}}{{#fare}} - P{{fare}}{{/fare}})
+            <b class="badge">{{mode}}</b> {{route}} ({{(f(duration))}}{{#fare}} - P{{fare}}{{/fare}})
           </span>
           {{#.showSteps}}
           <ul>
