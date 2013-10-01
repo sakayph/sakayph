@@ -13,31 +13,25 @@ function formatFare(fare, incomplete) {
 function formatDuration(duration) {
   if(isNaN(duration)) return '';
   var minutes = Math.floor(duration / 1000 / 60);
+  var hours = Math.floor(minutes / 60);
 
-  function helper(minutes) {
-    if(minutes <= 0) {
-      return '';
-    }
-    else if(minutes == 1) {
-      return '1 minute';
-    }
-    else if(minutes < 60) {
-      return minutes+' minutes'
+  if(minutes == 0) {
+    return '< 1 min'
+  }
+  else if(minutes % 60 == 0) {
+    if(hours > 1) {
+      return hours+' hours';
     }
     else {
-      var hours = Math.floor(minutes / 60);
-      var tail = helper(minutes % 60);
-      if(tail != '') tail = ' and '+tail;
-      if(hours == 1) {
-        return '1 hour'+tail;
-      }
-      else {
-        return hours+' hours'+tail;
-      }
+      return '1 hour';
     }
   }
-
-  return helper(minutes);
+  else if(minutes > 60) {
+    return hours+'h '+(minutes % 60)+'m'; 
+  }
+  else {
+    return minutes+' min';
+  }
 }
 
 /* Converting Google to Leaflet */
