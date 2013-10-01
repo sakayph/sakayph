@@ -161,7 +161,11 @@ search.observe('targets', function(targets) {
       var results = data.plan.itineraries;
       results.forEach(function(itinerary) {
         itinerary.legs = itinerary.legs.filter(function(leg) {
+          // because these really aren't that worth it to display
           return leg.duration > 60000;
+        }).filter(function(leg) {
+          // because OTP sometimes gives bus routes that are non-sensical
+          return leg.mode == "WALK" || leg.distance >= 500;
         });
 
         var incomplete = false;
