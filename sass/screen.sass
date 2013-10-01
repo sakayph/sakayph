@@ -24,8 +24,18 @@ $museo-slab-stack: "Museo Slab", museo-slab, sans-serif
 strong
   font-weight: 500
 
-// states!
+// utils!
 
+=clearfix
+  content: ""
+  display: table
+  clear: both
+
+.clearfix
+  +clearfix
+
+
+// states!
 
 body.mapmode
   header
@@ -82,7 +92,6 @@ body.mapmode
   #map-container
     max-height: 1080px
   #sidebar
-    padding: 12px
     height: auto
     opacity: 1
 
@@ -415,16 +424,18 @@ footer
   min-width: 290px
   max-width: 410px
   max-height: calc(100% - 140px)
-  background: darken($light-blue, 10%)
   overflow: hidden
   overflow-y: scroll
+  border: 1px solid lighten($light-blue, 10%)
   h3
     font-size: 21px
     font-weight: 100
-    margin-bottom: 10px
+    margin: 4px 0 15px 0
 
 #routes
-  margin-bottom: 10px
+  margin: 0
+  padding: 10px
+  background: darken($light-blue, 10%)
   li
     -webkit-transition: all 0.2s
     transition: all 0.2s
@@ -458,29 +469,98 @@ footer
       border: 1px solid transparent
 
 #itinerary
+  color: darken($light-blue, 8%)
+  margin: 0
+  padding: 10px
+  background: #f0f0f0
+  h3
+    font-weight: 500
   li
-    font-weight: 100
+    color: darken($light-blue, 14%)
+    font-weight: 300
     -webkit-transition: all 0.2s
     transition: all 0.2s
     cursor: pointer
     list-style: none
-    margin-bottom: 10px
-    .info
-      display: inline-block
-    .badge
-      display: inline-block
-      font-size: 80%
-      padding: 1px 3px
-      color: #fff
-      font-weight: 700
-      border-radius: 2px
-      color: #fff
-      border: 1px solid #fff
+    .step
+      position: relative
+      min-height: 92px
+      padding: 1px
+    .dot
+      position: absolute
+      top: 0
+      left: 63px
+      height: 14px
+      width: 14px
+      border-radius: 50%
+    .line
+      position: absolute
+      height: calc(100% - 23px)
+      background-repeat: repeat-y
+      width: 16px
+      bottom: 5px
+      left: 61px
+    .metadata
+      position: absolute
+      top: 0
+      left: 0
+      color: #222
+      font-size: 14px
+      line-height: 16px
+      height: 100%
+      float: left
+      width: 54px
+      text-align: right
+      .mode
+        color: darken($light-blue, 14%)
+        font-weight: 700
+    .body
+      position: relative
+      padding-left: 85px
+      width: calc(100% - 86px)
+    .main
+      line-height: 20px
     ul
-      margin-top: 10px
-      border-left: 2px solid #fff
+      margin: 10px 0 10px 10px
+      border-left: 1px solid #555
       padding-left: 8px
-      margin-left: 8px
+      li
+        margin-bottom: 6px
+      li:last-child
+        margin-bottom: 0
+    .walk
+      .dot
+        background: #777
+      .line
+        background: url("../img/line-walk.svg")
+    .BUS
+      .dot
+        background: $brown
+      .line
+        background: url("../img/line-bus.svg")
+    .JEEP
+      .dot
+        background: #006837
+      .line
+        background: url("../img/line-jeep.svg")
+    .LRT1
+      .dot
+        background: #FBB03B
+      .line
+        background: url("../img/line-lrt1.svg")
+    .LRT2
+      .dot
+        background: #662D91
+      .line
+        background: url("../img/line-lrt2.svg")
+    .MRT3
+      .dot
+        background: #0071BC
+      .line
+        background: url("../img/line-mrt3.svg")
+    &:last-child
+      .line
+        display: none
   li.selected
     color: #fff
     .info
