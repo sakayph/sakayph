@@ -1,3 +1,7 @@
+/*
+ * Copyright 2013 Thomas Dy, Philip Cheang under the terms of the
+ * MIT license found at http://sakay.ph/LICENSE
+ */
 function formatFare(fare, incomplete) {
   var f = fare.toFixed(2).replace(".00", "");
   if(incomplete) {
@@ -61,6 +65,7 @@ function l2gLatLng(latlng) {
 }
 
 /* Decoding OTP polylines */
+// adapted from http://soulsolutions.com.au/Default.aspx?tabid=96
 function decodeNumber(value, index) {
   if (value.length == 0)
       throw "string is empty";

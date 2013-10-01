@@ -1,3 +1,7 @@
+/*
+ * Copyright 2013 Thomas Dy, Philip Cheang under the terms of the
+ * MIT license found at http://sakay.ph/LICENSE
+ */
 var map = L.map('map');
 map.addLayer(new L.Google('ROADMAP'));
 
