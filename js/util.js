@@ -142,15 +142,13 @@ function viewMode(input) {
     }
   }
 
-  window.setTimeout(fireWindowResizeEvent, 340);
-  window.setTimeout(fireWindowResizeEvent, 810);
+  window.setTimeout(refitMap, 340);
+  window.setTimeout(refitMap, 810);
 
 }
 
-function fireWindowResizeEvent () {
-  var evt = document.createEvent('UIEvents');
-  evt.initUIEvent('resize', true, false,window,0);
-  window.dispatchEvent(evt);
+function refitMap () {
+  map.invalidateSize();
 }
 
 
