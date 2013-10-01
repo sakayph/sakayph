@@ -165,7 +165,7 @@
           {{/legs}}
           <br>
           <span class="info">
-           {{(f(duration))}} — (P{{fare}})
+           {{(f(duration))}}{{#fare}} — (P{{fare}}){{/fare}}
           </span>
         </li>
       {{/results}}

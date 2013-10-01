@@ -191,7 +191,12 @@ search.observe('targets', function(targets) {
           }
         });
 
-        itinerary.fare = formatFare(itinerary.fare, incomplete);
+        if(itinerary.fare == 0) {
+          itinerary.fare = undefined;
+        }
+        else {
+          itinerary.fare = formatFare(itinerary.fare, incomplete);
+        }
       });
       router.set('results', results);
       router.set('selected', -1);
