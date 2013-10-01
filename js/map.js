@@ -336,8 +336,24 @@ var itinerary = new Ractive({
     },
   }
 });
-itinerary.observe('current', function(val) {
+itinerary.markerLayer = L.layerGroup([]).addTo(map);
+itinerary.observe('current', function(val, oldVal) {
   smsWidget.el.className = (val == undefined) ? 'hidden' : '';
+
+  if(val) {
+    itinerary.markerLayer.clearLayers();
+    val.legs.forEach(function(leg, index) {
+      if(index == 0) return;
+      leg.marker = L.marker([leg.from.lat, leg.from.lon]);
+      leg.marker.setOpacity(0);
+      itinerary.markerLayer.addLayer(leg.marker);
+    });
+  }
+  if(oldVal) {
+    oldVal.legs.forEach(function(leg, index) {
+      leg.marker = undefined;
+    });
+  }
 });
 
 itinerary.on({
