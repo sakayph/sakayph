@@ -587,8 +587,20 @@ footer
   cursor: pointer
 
 .pico-content
-  background: white
-  border-radius: 5px
-  padding: 20px
-
+  p.tracking
+    font-weight: 100
+    font-size: 14px
+    line-height: 20px
+    padding: 20px
+    &:nth-child(1)
+      border-radius: 10px 10px 0 0
+      background: #f4f4f4
+    &.no
+      background: #eee
+    &.opt
+      background: #ddd
+    &.check
+      background: #bbb
+      border-radius: 0 0 10px 10px
+      font-weight: 500
 

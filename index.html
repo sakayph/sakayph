@@ -295,15 +295,16 @@
     </script>
 
     <script type="template" id="trackingInfo">
-      <p>We collect searches (origin + destination) and timestamps. This is to improve the service, and hopefully to also help the transit agencies understand how people travel. (better trains?)
+      <p class="tracking">We collect searches (origin + destination) and timestamps. This is to improve the service, and hopefully to also help the transit agencies understand how people travel. (better trains?)
 
-      <p>We *don't* collect any personally identifiable information like IP addresses, your location, fingerprints, or favorite spice girl, 'cause that'd be evil and creepy.
+      <p class="tracking no">We *don’t* collect any personally identifiable information like IP addresses, your location, fingerprints, or favorite spice girl, ’cause that’d be evil and creepy.
 
-      <p>If you're a paranoid android, you can opt out here. Don't believe us? Hit us on Github. (coming soon)
+      <p class="tracking opt">If you’re a paranoid android, you can opt out here. Don’t believe us? <a href="https://github.com/ahelpingchip/sakayph">Hit us on Github</a>.
+
     </script>
 
     <script type="ractive" id="trackWidgetTemplate">
-      <input type="checkbox" checked="{{disallowTracking}}"> Opt-out of logging
+      <p class="tracking check"><label><input type="checkbox" checked="{{disallowTracking}}"> Opt-out of logging</label>
     </script>
 
     <script type="text/javascript">
