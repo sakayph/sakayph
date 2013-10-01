@@ -175,9 +175,11 @@ search.observe('targets', function(targets) {
           if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
             leg.mode = 'JEEP';
           }
+          leg.className = leg.mode.toLowerCase();
 
           if(leg.mode == 'RAIL') {
             leg.route = leg.route.replace("-", " ");
+            leg.className = "rail "+leg.route.replace(" ", "").toLowerCase();
           }
 
           if(leg.routeId == "ROUTE_880872") {
