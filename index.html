@@ -212,7 +212,7 @@
         {{/()}}
 
         {{#(mode == "RAIL")}}
-          <div class="step rail {{route}}" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
+          <div class="step rail {{(route.replace(' ', ''))}}" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
             <div class="metadata">
               <div class="mode">
                 {{route}}
