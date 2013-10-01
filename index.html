@@ -179,42 +179,82 @@
     </script>
 
     <script type="ractive" id="itineraryTemplate">
-      <h3>steps</h3>
+      <h3>directions</h3>
       {{#current}}
       <ol>
       {{#legs:i}}
       <li>
         {{#(mode == "WALK")}}
-          <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
-            <b class="badge">{{mode}}</b> {{from.name}} to {{to.name}} ({{(f(duration))}})
-          </span>
-          {{#.showSteps}}
-          <ul>
-            {{#steps}}
-              <li><strong>{{( formatDirection(relativeDirection) )}}</strong> on to {{streetName}}</li>
-            {{/steps}}
-          </ul>
-          {{/.showSteps}}
+          <div class="step walk" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
+            <div class="metadata">
+              <div class="mode">
+                {{mode}}
+              </div>
+              <div class="duration">
+                {{(f(duration))}}
+              </div>
+            </div>
+              <figure class="dot"></figure>
+              <figure class="line"></figure>
+            <div class="body">
+              <div class="main">
+                {{from.name}} <strong>to</strong> {{to.name}}
+              </div>
+              {{#.showSteps}}
+                <ul>
+                  {{#steps}}
+                    <li><strong>{{( formatDirection(relativeDirection) )}}</strong> on to {{streetName}}</li>
+                  {{/steps}}
+                </ul>
+              {{/.showSteps}}
+            </div>
+          </div>
         {{/()}}
 
         {{#(mode == "RAIL")}}
-          <span proxy-hover="hover:{{i}}">
-            <b class="badge">{{route}}</b>
-            {{from.name}} to {{to.name}}
-            ({{(f(duration))}}{{#fare}}, P{{fare}}{{/fare}})
-          </span>
+          <div class="step rail {{route}}" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
+            <div class="metadata">
+              <div class="mode">
+                {{route}}
+              </div>
+              <div class="duration">
+                {{(f(duration))}}{{#fare}}<br> P{{fare}}{{/fare}}
+              </div>
+            </div>
+              <figure class="dot"></figure>
+              <figure class="line"></figure>
+            <div class="body">
+              <div class="main">
+                {{from.name}} <strong>to</strong> {{to.name}}
+              </div>
+            </div>
+          </div>
         {{/()}}
 
         {{#(mode == "BUS" || mode == "JEEP")}}
-          <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
-            <b class="badge">{{mode}}</b> {{route}} ({{(f(duration))}}{{#fare}}, P{{fare}}{{/fare}})
-          </span>
-          {{#.showSteps}}
-          <ul>
-            <li><strong>board</strong> {{from.name}}</li>
-            <li><strong>alight</strong> {{to.name}}</li>
-          </ul>
-          {{/.showSteps}}
+          <div class="step {{mode}}" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
+            <div class="metadata">
+              <div class="mode">
+                {{mode}}
+              </div>
+              <div class="duration">
+                {{(f(duration))}}{{#fare}}<br> P{{fare}}{{/fare}}
+              </div>
+            </div>
+              <figure class="dot"></figure>
+              <figure class="line"></figure>
+            <div class="body">
+              <div class="main">
+                {{route}}
+              </div>
+              {{#.showSteps}}
+                <ul>
+                  <li><strong>board</strong> {{from.name}}</li>
+                  <li><strong>alight</strong> {{to.name}}</li>
+                </ul>
+              {{/.showSteps}}
+            </div>
+          </div>
         {{/()}}
       </li>
       {{/legs}}
