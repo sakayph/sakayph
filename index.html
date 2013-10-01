@@ -123,6 +123,9 @@
       </footer>
     </div>
     <div id="progress"></div>
+    <div id="temp-load">
+      loading…
+    </div>
     <script type="ractive" id="searchTemplate">
       <h3>Find a route now</h3>
       <h4>Enter your starting point, and your destination.</h4>
@@ -236,7 +239,18 @@
       {{#loading}}
         <style>
           body {
-            opacity: 0.5;
+            opacity: 0.8;
+          }
+          #map {
+            filter: blur(4px);
+            -webkit-filter: blur(4px);
+          }
+          #temp-load {
+            -webkit-transition: all 0.8s;
+            transition: all 0.8s;
+            opacity: 1;
+            -webkit-filter: blur(0);
+            -webkit-transform: scale(1);
           }
         </style>
 

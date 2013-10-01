@@ -279,8 +279,33 @@ header h2
     margin-bottom: 30px
 
 #map
+  -webkit-transition: 0.4s -webkit-filter
+  transition: 0.4s filter
   min-height: 300px
   height: 100%
+
+#temp-load
+  position: absolute
+  z-index: 100
+  display: block
+  background: rgba(255,255,255,0.8)
+  border-radius: 8px
+  font-size: 26px
+  opacity: 0
+  font-weight: 100
+  vertical-align: middle
+  text-align: center
+  top: 50%
+  left: 50%
+  line-height: 100px
+  margin-top: -50px
+  margin-left: -150px
+  width: 300px
+  height: 100px
+  +box-sizing(border-box)
+  -webkit-transform: scale(1.25)
+  -webkit-filter: blur(2px)
+  box-shadow: 0 0 8px rgba(0,0,0,0.5)
 
 #map-container
   -webkit-transition: $state-transition all
