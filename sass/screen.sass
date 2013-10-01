@@ -93,6 +93,7 @@ body.mapmode
     max-height: 1080px
   #sidebar
     height: auto
+    left: 10px
     opacity: 1
 
 // styles!
@@ -294,6 +295,7 @@ header h2
   height: 100%
 
 #temp-load
+  display: none
   position: absolute
   z-index: 100
   display: block
@@ -412,18 +414,20 @@ footer
 
 #sidebar
   position: absolute
-  bottom: 10px
-  left: 10px
+  -webkit-transition: $state-transition all
+  transition: $state-transition all
+  bottom: 15px
+  left: -600px
   border-radius: 7px
   color: #fff
   width: 30%
-  height: 0
+  // height: 0
   padding: 0
   opacity: 0
   +box-sizing(border-box)
   min-width: 290px
   max-width: 410px
-  max-height: calc(100% - 140px)
+  max-height: calc(100% - 150px)
   overflow: hidden
   overflow-y: scroll
   border: 1px solid lighten($light-blue, 10%)
@@ -469,6 +473,8 @@ footer
       border: 1px solid transparent
 
 #itinerary
+  position: relative
+  border-radius: 0 0 7px 7px
   color: darken($light-blue, 8%)
   margin: 0
   padding: 10px
@@ -570,6 +576,16 @@ footer
       color: $light-blue
       border: 1px solid transparent
 
+#send-sms
+  position: absolute
+  font-size: 12px
+  top: 8px
+  right: 6px
+  background: darken($light-blue, 10%)
+  border: 1px solid white
+  color: #fff
+  border-radius: 4px
+  cursor: pointer
 
 .pico-content
   background: white

@@ -17,14 +17,6 @@ progress.setLoading = function(loading) {
   this.set('loading', loading);
 }
 
-var smsWidget = new Ractive({
-  el: '#sms',
-  template: '#smsWidgetTemplate'
-});
-
-smsWidget.on('send', function() {
-  new SendModal();
-});
 
 var search = new Ractive({
   el: '#search',
@@ -354,7 +346,6 @@ var itinerary = new Ractive({
 });
 itinerary.markerLayer = L.layerGroup([]).addTo(map);
 itinerary.observe('current', function(val, oldVal) {
-  smsWidget.el.className = (val == undefined) ? 'hidden' : '';
 
   if(val) {
     itinerary.markerLayer.clearLayers();
@@ -373,6 +364,9 @@ itinerary.observe('current', function(val, oldVal) {
 });
 
 itinerary.on({
+  sendSMS: function() {
+    new SendModal();
+  },
   showSteps: function(event) {
     var path = event.keypath+'.showSteps';
     this.set(path, !this.get(path));

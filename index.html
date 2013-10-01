@@ -54,7 +54,6 @@
     <div id="sidebar">
       <div id="routes"></div>
       <div id="itinerary"></div>
-      <div id="sms"></div>
     </div>
     <div id="home">
       <section id="analytics">
@@ -174,6 +173,7 @@
 
     <script type="ractive" id="itineraryTemplate">
       <h3>directions</h3>
+      <button id="send-sms" proxy-tap="sendSMS"><i class="icon-envelope"></i> Text this to me</button>
       {{#current}}
       <ol>
       {{#legs:i}}
@@ -267,10 +267,6 @@
       {{#sending}}
       Sending...
       {{/sending}}
-    </script>
-
-    <script type="ractive" id="smsWidgetTemplate">
-      <button proxy-tap="send">Send current directions to me</button>
     </script>
 
     <script type="ractive" id="progressWidgetTemplate">
