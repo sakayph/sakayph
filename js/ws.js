@@ -100,6 +100,7 @@ var sakay = function() {
         target: number,
         itinerary: JSON.stringify(itinerary, function(key, value) {
           if(key == '_ractive') return undefined;
+          if(key == 'marker') return undefined;
           if(key == 'points') return undefined;
           if(key == 'polyline') return undefined;
           return value;
