@@ -172,6 +172,10 @@ search.observe('targets', function(targets) {
             leg.mode = 'JEEP';
           }
 
+          if(leg.mode == 'RAIL') {
+            leg.route = leg.route.replace("-", " ");
+          }
+
           if(leg.routeId == "ROUTE_880872") {
             incomplete = true;
           }
