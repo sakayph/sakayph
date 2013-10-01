@@ -179,7 +179,7 @@ search.observe('targets', function(targets) {
           leg.fare = calculateFare(leg);
           if(leg.fare) {
             itinerary.fare += leg.fare;
-            leg.fare = formatFare(itinerary.fare);
+            leg.fare = formatFare(leg.fare);
           }
         });
 
@@ -371,7 +371,7 @@ router.getPoints = function(index) {
 router.showRoute = function(index) {
   this.routeLine.setLatLngs(this.getPoints(index));
   this.unhighlightRoute(index);
-  map.fitBounds(this.routeLine.getBounds(), { padding: [10, 10] });
+  map.fitBounds(this.routeLine.getBounds(), { paddingTopLeft: [300, 10], paddingBottomRight: [10, 10] });
 }
 router.highlightRoute = function(index) {
   var route = this.get('results')[index];
