@@ -55,7 +55,6 @@
       <div id="routes"></div>
       <div id="itinerary"></div>
       <div id="sms"></div>
-      <div id="track"></div>
     </div>
     <div id="home">
       <section id="analytics">
@@ -106,12 +105,7 @@
 
             <h4>Privacy disclaimer:
             </h4>
-            <p>We collect searches (origin + destination) and timestamps. This is to improve the service, and hopefully to also help the transit agencies understand how people travel. (better trains?)
-
-            <p>We *don't* collect any personally identifiable information like IP addresses, your location, fingerprints, or favorite spice girl, 'cause that'd be evil and creepy.
-
-            <p>If you're a paranoid android, you can opt out here. Don't believe us? Hit us on Github. (coming soon)
-
+            <p><a onclick="new TrackModal()">Click here for more.</a></p>
             </div>
 
         </div>          
@@ -299,6 +293,14 @@
         </style>
 
       {{/loading}}
+    </script>
+
+    <script type="template" id="trackingInfo">
+      <p>We collect searches (origin + destination) and timestamps. This is to improve the service, and hopefully to also help the transit agencies understand how people travel. (better trains?)
+
+      <p>We *don't* collect any personally identifiable information like IP addresses, your location, fingerprints, or favorite spice girl, 'cause that'd be evil and creepy.
+
+      <p>If you're a paranoid android, you can opt out here. Don't believe us? Hit us on Github. (coming soon)
     </script>
 
     <script type="ractive" id="trackWidgetTemplate">

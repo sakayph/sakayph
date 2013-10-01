@@ -17,25 +17,13 @@ progress.setLoading = function(loading) {
   this.set('loading', loading);
 }
 
-var trackWidget = new Ractive({
-  el: '#track',
-  template: '#trackWidgetTemplate',
-  data: {
-    disallowTracking: !sakay.canLog()
-  }
-});
-
-trackWidget.observe('disallowTracking', function(val) {
-  sakay.setCanLog(!val);
-});
-
 var smsWidget = new Ractive({
   el: '#sms',
   template: '#smsWidgetTemplate'
 });
 
 smsWidget.on('send', function() {
-  new Modal();
+  new SendModal();
 });
 
 var search = new Ractive({
@@ -233,7 +221,35 @@ search.on({
 search.addInput('from', 'from');
 search.addInput('to', 'to');
 
-var Modal = (function() {
+var TrackModal = (function() {
+  var _class = Ractive.extend({
+    template: '#trackWidgetTemplate',
+    append: true,
+    data: {
+      disallowTracking: !sakay.canLog()
+    },
+    init: function() {
+      var modalStyle = this.el.style;
+      modalStyle.width = '500px';
+      modalStyle.margin = "0 0 0 "+(-this.el.clientWidth / 2)+"px";
+      this.observe('disallowTracking', function(val) {
+        sakay.setCanLog(!val);
+      });
+    }
+  });
+
+  return function() {
+    var modal = picoModal({
+      content: document.getElementById('trackingInfo').innerHTML,
+      modalStyles: {}
+    });
+    return new _class({
+      el: modal.modalElem
+    });
+  }
+})();
+
+var SendModal = (function() {
   var _class = Ractive.extend({
     template: '#modalTemplate',
     init: function(options) {
