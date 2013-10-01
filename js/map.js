@@ -161,7 +161,11 @@ search.observe('targets', function(targets) {
       var results = data.plan.itineraries;
       results.forEach(function(itinerary) {
         itinerary.legs = itinerary.legs.filter(function(leg) {
+          // because these really aren't that worth it to display
           return leg.duration > 60000;
+        }).filter(function(leg) {
+          // because OTP sometimes gives bus routes that are non-sensical
+          return leg.mode == "WALK" || leg.distance >= 500;
         });
 
         var incomplete = false;
@@ -172,6 +176,10 @@ search.observe('targets', function(targets) {
             leg.mode = 'JEEP';
           }
 
+          if(leg.mode == 'RAIL') {
+            leg.route = leg.route.replace("-", " ");
+          }
+
           if(leg.routeId == "ROUTE_880872") {
             incomplete = true;
           }
@@ -179,7 +187,7 @@ search.observe('targets', function(targets) {
           leg.fare = calculateFare(leg);
           if(leg.fare) {
             itinerary.fare += leg.fare;
-            leg.fare = formatFare(itinerary.fare);
+            leg.fare = formatFare(leg.fare);
           }
         });
 
@@ -371,7 +379,7 @@ router.getPoints = function(index) {
 router.showRoute = function(index) {
   this.routeLine.setLatLngs(this.getPoints(index));
   this.unhighlightRoute(index);
-  map.fitBounds(this.routeLine.getBounds(), { padding: [10, 10] });
+  map.fitBounds(this.routeLine.getBounds(), { paddingTopLeft: [300, 10], paddingBottomRight: [10, 10] });
 }
 router.highlightRoute = function(index) {
   var route = this.get('results')[index];

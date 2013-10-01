@@ -184,7 +184,7 @@
       <ol>
       {{#legs:i}}
       <li>
-        {{^(isTransit(mode))}}
+        {{#(mode == "WALK")}}
           <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
             <b class="badge">{{mode}}</b> {{from.name}} to {{to.name}} ({{(f(duration))}})
           </span>
@@ -197,7 +197,15 @@
           {{/.showSteps}}
         {{/()}}
 
-        {{#(isTransit(mode))}}
+        {{#(mode == "RAIL")}}
+          <span proxy-hover="hover:{{i}}">
+            <b class="badge">{{route}}</b>
+            {{from.name}} to {{to.name}}
+            ({{(f(duration))}}{{#fare}}, P{{fare}}{{/fare}})
+          </span>
+        {{/()}}
+
+        {{#(mode == "BUS" || mode == "JEEP")}}
           <span proxy-tap="showSteps" proxy-hover="hover:{{i}}">
             <b class="badge">{{mode}}</b> {{route}} ({{(f(duration))}}{{#fare}}, P{{fare}}{{/fare}})
           </span>
