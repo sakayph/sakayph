@@ -363,7 +363,12 @@ itinerary.observe('current', function(val, oldVal) {
 
 itinerary.on({
   sendSMS: function() {
-    new SendModal();
+    if(itinerary.get('current')) {
+      new SendModal();
+    }
+    else {
+      picoModal("Search for a route and we can send the directions to you via SMS.");
+    }
   },
   showSteps: function(event) {
     var path = event.keypath+'.showSteps';
