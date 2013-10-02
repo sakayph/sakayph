@@ -256,7 +256,6 @@ var SendModal = (function() {
             options.modal.close();
             picoModal({
               content: "Your message will be sent in a short while.",
-              modalStyles: {}
             });
           });
         }
@@ -267,7 +266,6 @@ var SendModal = (function() {
   return function(itinerary) {
     var modal = picoModal({
       closeButton: false,
-      modalStyles: {}
     });
     return new _class({
       el: modal.modalElem,
