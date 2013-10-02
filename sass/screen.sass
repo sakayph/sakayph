@@ -21,6 +21,8 @@ $state-transition: 0.8s
 $museo-sans-stack: "Museo Sans", museo-sans, sans-serif
 $museo-slab-stack: "Museo Slab", museo-slab, sans-serif
 
+$voting-period: block
+
 strong
   font-weight: 500
 
@@ -95,6 +97,9 @@ body.mapmode
     height: auto
     left: 10px
     opacity: 1
+  #voteplz
+    top: -10px
+    right: -450px
 
 // styles!
 
@@ -605,4 +610,27 @@ footer
       background: #bbb
       border-radius: 0 0 10px 10px
       font-weight: 500
+
+#voteplz
+  display: $voting-period
+  background-color: #662D91
+  position: absolute
+  text-align: center
+  top: 60px
+  right: -300px
+  width: 760px
+  // height: 50px
+  line-height: 24px
+  padding: 10px
+  font-size: 17px
+  font-weight: 500
+  color: #fff
+  border: 1px solid rgba(255,255,255,0.76)
+  text-shadow: -1px -1px 1px rgba(0,0,0,0.8)
+  text-decoration: none
+  +transform( rotate(45deg) )
+  +transition( top $state-transition, right $state-transition, transform 0.3s )
+  &:hover
+    +transform( rotate(45deg) translateY(3px) scale(1.15))
+
 
