@@ -12,7 +12,8 @@
     <!--[if IE]>
     <link rel="stylesheet" href="leaflet/leaflet.ie.css">
     <![endif]-->
-    <link rel="stylesheet" href="stylesheets/screen.css">
+    <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/print.css" media="print">
     <link rel="stylesheet" href="stylesheets/font-awesome.css">
   </head>
   <body>
@@ -123,6 +124,11 @@
     <div id="progress"></div>
     <div id="temp-load">
       loading…
+    </div>
+    <div id="printView">
+      <h2>Oops!</h2>
+      <p>There's nothing here because you haven't searched for directions yet.</p>
+      <p> :) </p>
     </div>
     <script type="ractive" id="searchTemplate">
       <h3>Find a route now</h3>
