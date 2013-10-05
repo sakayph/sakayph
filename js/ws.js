@@ -40,6 +40,28 @@ var geocoder = function() {
   }
 }();
 
+var staticMaps = function() {
+  var API = 'http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBLP-naDBEFyAjrnvuzq-EWKAOC_MhN3Bc&sensor=false';
+  var HEIGHT = 300;
+  var WIDTH = 400;
+
+  function formatPoint(point) {
+    return point.lat.toFixed(6)+','+point.lon.toFixed(6);
+  }
+
+  return function url(leg) {
+    var start = leg.from;
+    var end = leg.to;
+
+    var queryString = "";
+    queryString += "&size="+WIDTH+"x"+HEIGHT;
+    queryString += "&markers=color:green|label:A|"+formatPoint(start);
+    queryString += "&markers=color:red|label:B|"+formatPoint(end);
+    queryString += "&path=enc:"+encodeURI(leg.legGeometry.points);
+    return API+queryString;
+  }
+}();
+
 var otp = function() {
   var API = 'http://maps.pleasantprogrammer.com/opentripplanner-api-webapp/ws'
 
