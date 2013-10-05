@@ -25,7 +25,7 @@ var search = new Ractive({
     targets: {
       mode: 'TRANSIT,WALK'
     }
-  }    
+  }
 });
 search.layer = L.layerGroup([]).addTo(map);
 
@@ -327,6 +327,23 @@ map.on('contextmenu', function(event) {
   popup.open();
 });
 
+var printView = new Ractive({
+  el: '#print',
+  template: '#printTemplate',
+  data: {
+    show: false,
+    f: formatDuration,
+    formatDirection: function(dir) {
+      if(dir == undefined) return '';
+      return dir.toLowerCase().replace('_', ' ');
+    },
+    map: staticMaps
+  }
+});
+printView.on('back', function() {
+  printView.set('show', false);
+});
+
 var itinerary = new Ractive({
   el: '#itinerary',
   template: '#itineraryTemplate',
@@ -344,7 +361,7 @@ var itinerary = new Ractive({
 });
 itinerary.markerLayer = L.layerGroup([]).addTo(map);
 itinerary.observe('current', function(val, oldVal) {
-
+  printView.set('current', val);
   if(val) {
     itinerary.markerLayer.clearLayers();
     val.legs.forEach(function(leg, index) {
@@ -368,6 +385,14 @@ itinerary.on({
     }
     else {
       picoModal("Search for a route and we can send the directions to you via SMS.");
+    }
+  },
+  print: function() {
+    if(itinerary.get('current')) {
+      printView.set('show', true);
+    }
+    else {
+      picoModal("Search for a route first.");
     }
   },
   showSteps: function(event) {
