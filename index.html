@@ -253,16 +253,17 @@
       {{/legs}}
       </ol>
       {{/current}}
+
     </script>
 
     <script type="ractive" id="itineraryTemplate">
       <h3>directions</h3>
-      <button id="send-sms" proxy-tap="sendSMS"><i class="icon-envelope"></i> Text this to me</button>
-      <button proxy-tap="print"><i class="icon-print"></i> Print view</button>
+      <button id="sms-button" proxy-tap="sendSMS"><i class="icon-envelope"></i> Text me</button>
+      <button id="print-button" proxy-tap="print"><i class="icon-print"></i> Print</button>
       {{#current}}
       <ol>
       {{#legs:i}}
-      <li>
+      <li class="step-container">
         <div class="step {{className}}" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
         {{#(mode == "WALK")}}
             <div class="metadata">

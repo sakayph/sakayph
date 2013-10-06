@@ -42,7 +42,7 @@ var geocoder = function() {
 
 var staticMaps = function() {
   var API = 'http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBLP-naDBEFyAjrnvuzq-EWKAOC_MhN3Bc&sensor=false';
-  var HEIGHT = 300;
+  var HEIGHT = 260;
   var WIDTH = 400;
 
   function formatPoint(point) {

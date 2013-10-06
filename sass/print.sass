@@ -3,10 +3,127 @@
  * MIT license found at http://sakay.ph/LICENSE
  */
 
-header, #search-container, #do-things, #sidebar, #home, #map-container
+@import compass/reset
+
+$brown: rgb(112,45,22)
+$light-blue: #5498AF
+
+$metadata-width: 68px
+
+header, #search-container, #do-things, #sidebar, #home, #map-container, #temp-load
   display: none
 
+strong
+  font-weight: 500
+
 #print
+  font-family: "Museo Sans", museo-sans, sans-serif
   display: block
+  width: 960px
   #back-to-map
     display: none
+
+h3
+  font-family: "Museo Slab", museo-slab, sans-serif
+  font-size: 28px
+  margin-bottom: 18px
+  color: #702D16
+
+.step-container
+  // color: darken($light-blue, 14%)
+  // height: 300px
+  font-weight: 300
+  list-style: none
+  position: relative
+  height: 280px
+  .step
+    position: relative
+    min-height: 92px
+    padding: 1px
+  .dot
+    position: absolute
+    top: 0
+    left: $metadata-width + 9
+    height: 14px
+    width: 14px
+    border-radius: 50%
+  .line
+    position: absolute
+    height: 240px
+    background-repeat: repeat-y
+    width: 16px
+    top: 23px
+    left: $metadata-width + 7
+  .metadata
+    position: absolute
+    top: 0
+    left: 0
+    color: #222
+    font-size: 15px
+    line-height: 19px
+    height: 270px
+    float: left
+    width: $metadata-width
+    text-align: right
+    .mode
+      color: darken($light-blue, 14%)
+      font-weight: 700
+  .body
+    position: relative
+    padding-left: $metadata-width + 31
+    width: 420px
+  .main
+    line-height: 20px
+  ul
+    margin: 10px 0 10px 10px
+    border-left: 1px solid #555
+    padding-left: 8px
+    li
+      margin-bottom: 6px
+    li:last-child
+      margin-bottom: 0
+  .walk
+    .dot
+      background: #777
+    .line
+      background: url("../img/line-walk.svg")
+  .bus
+    .dot
+      background: $brown
+    .line
+      background: url("../img/line-bus.svg")
+  .jeep
+    .dot
+      background: #006837
+    .line
+      background: url("../img/line-jeep.svg")
+  .lrt1
+    .dot
+      background: #FBB03B
+    .line
+      background: url("../img/line-lrt1.svg")
+  .lrt2
+    .dot
+      background: #662D91
+    .line
+      background: url("../img/line-lrt2.svg")
+  .mrt3
+    .dot
+      background: #0071BC
+    .line
+      background: url("../img/line-mrt3.svg")
+  &:last-child
+    .line
+      display: none
+li.selected
+  color: #fff
+  .info
+    color: #fff
+  .badge
+    background: #fff
+    color: $light-blue
+    border: 1px solid transparent
+
+img
+  position: absolute
+  right: 0

@@ -581,11 +581,22 @@ footer
       background: #fff
       color: $light-blue
       border: 1px solid transparent
+  button
+    font-family: $museo-sans-stack
+    position: absolute
+    font-size: 14px
 
-#send-sms
-  position: absolute
-  font-size: 12px
-  top: 8px
+#sms-button
+  top: 10px
+  right: 70px
+  background: darken($light-blue, 10%)
+  border: 1px solid white
+  color: #fff
+  border-radius: 4px
+  cursor: pointer
+
+#print-button
+  top: 10px
   right: 6px
   background: darken($light-blue, 10%)
   border: 1px solid white
@@ -633,4 +644,5 @@ footer
   &:hover
     +transform( rotate(45deg) translateY(3px) scale(1.15))
 
-
+#print
+  display: none
