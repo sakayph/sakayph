@@ -179,29 +179,11 @@
     </script>
 
     <script type="ractive" id="printTemplate">
-      {{#show}}
-      <style>
-        header, #search-container, #do-things, #sidebar, #home, #map-container {
-          display: none;
-        }
-      </style>
-      {{/show}}
-      {{^show}}
-      <style>
-        @media screen {
-          #print {
-            display: none;
-          }
-        }
-      </style>
-      {{/show}}
-
-      <button id="back-to-map" proxy-tap="back"><i class="icon-map-marker"></i> Back</button>
-      <h3>directions</h3>
+      <h3>sakay.ph</h3>
       {{#current}}
       <ol>
       {{#legs:i}}
-      <li>
+      <li class="step-container">
         <div class="step {{className}}">
           <img src="{{(map(.))}}">
         {{#(mode == "WALK")}}
