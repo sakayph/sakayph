@@ -121,6 +121,7 @@
         <p><a href="http://twitter.com/_phi">@_phi</a> and <a href="http://twitter.com/pleasantprog">@pleasantprog</a>
       </footer>
     </div>
+    <div id="print"></div>
     <div id="progress"></div>
     <div id="temp-load">
       loading…
@@ -182,13 +183,92 @@
       </ul>
     </script>
 
-    <script type="ractive" id="itineraryTemplate">
-      <h3>directions</h3>
-      <button id="send-sms" proxy-tap="sendSMS"><i class="icon-envelope"></i> Text this to me</button>
+    <script type="ractive" id="printTemplate">
+      <h3>sakay.ph</h3>
       {{#current}}
       <ol>
       {{#legs:i}}
-      <li>
+      <li class="step-container">
+        <div class="step {{className}}">
+          <img src="{{(map(.))}}">
+        {{#(mode == "WALK")}}
+            <div class="metadata">
+              <div class="mode">
+                {{mode}}
+              </div>
+              <div class="duration">
+                {{(f(duration))}}
+              </div>
+            </div>
+              <figure class="dot"></figure>
+              <figure class="line"></figure>
+            <div class="body">
+              <div class="main">
+                {{from.name}} <strong>to</strong> {{to.name}}
+              </div>
+                <ul>
+                  {{#steps}}
+                    <li><strong>{{( formatDirection(relativeDirection) )}}</strong> on to {{streetName}}</li>
+                  {{/steps}}
+                </ul>
+            </div>
+        {{/()}}
+
+        {{#(mode == "RAIL")}}
+            <div class="metadata">
+              <div class="mode">
+                {{route}}
+              </div>
+              <div class="duration">
+                {{(f(duration))}}{{#fare}}<br> P{{fare}}{{/fare}}
+              </div>
+            </div>
+              <figure class="dot"></figure>
+              <figure class="line"></figure>
+            <div class="body">
+              <div class="main">
+                {{from.name}} <strong>to</strong> {{to.name}}
+              </div>
+            </div>
+        {{/()}}
+
+        {{#(mode == "BUS" || mode == "JEEP")}}
+            <div class="metadata">
+              <div class="mode">
+                {{mode}}
+              </div>
+              <div class="duration">
+                {{(f(duration))}}{{#fare}}<br> P{{fare}}{{/fare}}
+              </div>
+            </div>
+              <figure class="dot"></figure>
+              <figure class="line"></figure>
+            <div class="body">
+              <div class="main">
+                {{route}}
+              </div>
+                <ul>
+                  <li><strong>board</strong> {{from.name}}</li>
+                  <li><strong>alight</strong> {{to.name}}</li>
+                </ul>
+            </div>
+        {{/()}}
+        </div>
+      </li>
+      {{/legs}}
+      </ol>
+      {{/current}}
+
+    </script>
+
+    <script type="ractive" id="itineraryTemplate">
+      <h3>directions</h3>
+      <button id="sms-button" proxy-tap="sendSMS"><i class="icon-envelope"></i> Text me</button>
+      <button id="print-button" proxy-tap="print"><i class="icon-print"></i> Print</button>
+      {{#current}}
+      <ol>
+      {{#legs:i}}
+      <li class="step-container">
         <div class="step {{className}}" proxy-tap="showSteps" proxy-hover="hover:{{i}}">
         {{#(mode == "WALK")}}
             <div class="metadata">
