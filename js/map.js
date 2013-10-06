@@ -390,6 +390,7 @@ itinerary.on({
   print: function() {
     if(itinerary.get('current')) {
       printView.set('show', true);
+      window.print();
     }
     else {
       picoModal("Search for a route first.");
