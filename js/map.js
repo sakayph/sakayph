@@ -5,6 +5,9 @@
 var map = L.map('map');
 map.addLayer(new L.Google('ROADMAP'));
 
+// give allowance for sidebar
+var fitPadding = { paddingTopLeft: [300, 10], paddingBottomRight: [10, 10] };
+
 otp.metadata.then(function(data) {
   map.setView([data.centerLatitude, data.centerLongitude], 12);
 });
@@ -398,7 +401,22 @@ itinerary.on({
   },
   showSteps: function(event) {
     var path = event.keypath+'.showSteps';
-    this.set(path, !this.get(path));
+    var isShowing = this.get(path);
+    this.set(path, !isShowing);
+
+    if(!isShowing) {
+      path = event.keypath;
+      var leg = this.get(path);
+      map.fitBounds(leg.polyline.getBounds(), fitPadding);
+    }
+    else {
+      var itinerary = this.get('current');
+      var bounds = L.latLngBounds([]);
+      itinerary.legs.forEach(function(leg) {
+        bounds.extend(L.latLngBounds(leg.points));
+      });
+      map.fitBounds(bounds, fitPadding);
+    }
   },
   hover: function(event, index) {
     var leg = this.get('current').legs[index];
@@ -441,7 +459,7 @@ router.getPoints = function(index) {
 router.showRoute = function(index) {
   this.routeLine.setLatLngs(this.getPoints(index));
   this.unhighlightRoute(index);
-  map.fitBounds(this.routeLine.getBounds(), { paddingTopLeft: [300, 10], paddingBottomRight: [10, 10] });
+  map.fitBounds(this.routeLine.getBounds(), fitPadding);
 }
 router.highlightRoute = function(index) {
   var route = this.get('results')[index];
