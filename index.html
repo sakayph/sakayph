@@ -189,8 +189,9 @@
 
     <script type="ractive" id="printTemplate">
       <h3>sakay.ph</h3>
-      {{#current}}
-      <ol>
+      {{#results:n}}
+      {{#(divLoaded(n, selected))}}
+      <ol class="{{(divClass(n, selected))}}">
       {{#legs:i}}
       <li class="step-container">
         <div class="step {{className}}">
@@ -261,7 +262,8 @@
       </li>
       {{/legs}}
       </ol>
-      {{/current}}
+      {{/()}}
+      {{/results}}
 
     </script>
 

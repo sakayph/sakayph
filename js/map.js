@@ -335,13 +335,28 @@ var printView = new Ractive({
   template: '#printTemplate',
   data: {
     show: false,
+    results: [],
+    selected: -1,
+    loaded: [],
     f: formatDuration,
     formatDirection: function(dir) {
       if(dir == undefined) return '';
       return dir.toLowerCase().replace('_', ' ');
     },
-    map: staticMaps
+    map: staticMaps,
+    divLoaded: function(n) {
+      return printView.get('loaded').indexOf(n) >= 0;
+    },
+    divClass: function(n, selected) {
+      return (n == selected) ? '' : 'hidden';
+    }
   }
+});
+printView.observe('results', function() {
+  this.set('loaded', []);
+});
+printView.observe('selected', function(n) {
+  this.get('loaded').push(n);
 });
 printView.on('back', function() {
   printView.set('show', false);
@@ -364,7 +379,6 @@ var itinerary = new Ractive({
 });
 itinerary.markerLayer = L.layerGroup([]).addTo(map);
 itinerary.observe('current', function(val, oldVal) {
-  printView.set('current', val);
   if(val) {
     itinerary.markerLayer.clearLayers();
     val.legs.forEach(function(leg, index) {
@@ -477,8 +491,13 @@ router.unhighlightRoute = function(index) {
   }
 }
 
+router.observe('results', function(val) {
+  printView.set('results', val);
+});
+
 router.observe('selected', function(val) {
   if(val == undefined || val < 0) return;
+  printView.set('selected', val);
   var results = this.get('results');
   itinerary.set('current', results[val]);
   this.showRoute(val);
