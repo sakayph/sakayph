@@ -136,9 +136,6 @@ function viewMode(input) {
     }
   }
 
-  window.setTimeout(refitMap, 340);
-  window.setTimeout(refitMap, 810);
-
 }
 
 function refitMap () {
