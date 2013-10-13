@@ -8,9 +8,8 @@ map.addLayer(new L.Google('ROADMAP'));
 // give allowance for sidebar
 var fitPadding = { paddingTopLeft: [300, 10], paddingBottomRight: [10, 10] };
 
-otp.metadata.then(function(data) {
-  map.setView([data.centerLatitude, data.centerLongitude], 12);
-});
+var searchDone = false;
+var historyInitialized = false;
 
 var progress = new Ractive({
   el: '#progress',
@@ -69,6 +68,7 @@ search.addInput = function(id, target) {
 }
 
 search.setTarget = function(name, latlng, address) {
+  searchDone = true;
   var a = name;
   var b = "to";
   if(a == "to") {
@@ -103,15 +103,26 @@ search.setTarget = function(name, latlng, address) {
 
   if(targets[b]) {
     if(targets[b].getLatLng() == latlng) { // handle setting start as destination
-      map.removeLayer(targets[b]);
-      targets[b] = null;
+      search.unsetTarget(b);
     }
   }
   search.update('targets');
   map.closePopup();
 }
 
+search.unsetTarget = function(target) {
+  var targets = search.get('targets');
+  if(targets[target]) {
+    map.removeLayer(targets[target]);
+    targets[target] = null;
+  }
+}
+
 search.observe('targets', function(targets) {
+  if(historyInitialized) {
+    var params = buildUrlParams(targets);
+    History.replaceState(null, null, params);
+  }
   if(!targets.from || !targets.to) return;
   var self = this;
   progress.setLoading(true);
@@ -508,4 +519,37 @@ router.on({
     }
   }
 });
+
+(function() {
+  function setTarget(target, latlng) {
+    var valid = latlng != null;
+    if(valid) {
+      search.setTarget(target, latlng, false);
+    }
+    return valid;
+  }
+
+  var urlParams = getUrlParams();
+  var fromLatLng = str2latlng(urlParams.from);
+  var toLatLng = str2latlng(urlParams.to);
+
+  if(fromLatLng && !toLatLng) {
+    map.setView(fromLatLng, 14);
+  }
+  else if(toLatLng && !fromLatLng) {
+    map.setView(toLatLng, 14);
+  }
+  else if(!fromLatLng && !toLatLng) {
+    otp.metadata.then(function(data) {
+      if(!searchDone) {
+        map.setView([data.centerLatitude, data.centerLongitude], 12);
+      }
+    });
+  }
+
+  if(setTarget('from', fromLatLng) | setTarget('to', toLatLng)) {
+    viewMode('map');
+  }
+  historyInitialized = true;
+}());
 
