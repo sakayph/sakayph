@@ -20,7 +20,6 @@ progress.setLoading = function(loading) {
   this.set('loading', loading);
 }
 
-
 var search = new Ractive({
   el: '#search',
   template: '#searchTemplate',
@@ -30,21 +29,16 @@ var search = new Ractive({
     }
   }
 });
-search.layer = L.layerGroup([]).addTo(map);
 
 search.addInput = function(id, target) {
   var input = document.getElementById(id);
   var searchBox = new google.maps.places.SearchBox(input);
 
   google.maps.event.addListener(searchBox, 'places_changed', function() {
-    search.layer.clearLayers();
     var places = searchBox.getPlaces();
     if(places.length > 0) {
       var place = places[0];
       var latlng = g2lLatLng(place.geometry.location);
-      var marker = L.marker(latlng);
-      var popup = new Popup(marker);
-      marker.addTo(search.layer);
       setTimeout(function() {
         map.setView(latlng, 14);
       }, 0);
@@ -56,14 +50,10 @@ search.addInput = function(id, target) {
   // sorry thomas, I'll clean this up
 
   search.on('go', function() {
-    search.layer.clearLayers();
     var places = searchBox.getPlaces();
     if(places.length > 0) {
       var place = places[0];
       var latlng = g2lLatLng(place.geometry.location);
-      var marker = L.marker(latlng);
-      var popup = new Popup(marker);
-      marker.addTo(search.layer);
       setTimeout(function() {
         map.setView(latlng, 14);
       }, 0);
