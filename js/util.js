@@ -34,6 +34,20 @@ function formatDuration(duration) {
   }
 }
 
+function latlng2str(latlng) {
+  return latlng.lat.toFixed(6)+','+latlng.lng.toFixed(6);
+}
+
+function str2latlng(str) {
+  if(str == null) return null;
+  var split = str.split(",");
+  if(split.length != 2) return null;
+  var lat = split[0];
+  var lng = split[1];
+  if(!isFinite(lat) || !isFinite(lng)) return null;
+  return new L.LatLng(lat, lng);
+}
+
 /* Converting Google to Leaflet */
 function g2lBounds(gBounds) {
   return new L.LatLngBounds(
@@ -145,4 +159,29 @@ function refitMap () {
   map.invalidateSize();
 }
 
+// adapted from http://stackoverflow.com/a/2880929
+function getUrlParams() {
+  var urlParams;
+  var match,
+  pl     = /\+/g,  // Regex for replacing addition symbol with a space
+  search = /([^&=]+)=?([^&]*)/g,
+  decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+  query  = window.location.search.substring(1);
 
+  urlParams = {};
+  while (match = search.exec(query))
+    urlParams[decode(match[1])] = decode(match[2]);
+  return urlParams;
+};
+
+function buildUrlParams(targets) {
+  var str = '?';
+  if(targets.from) {
+    str += "from="+latlng2str(targets.from.getLatLng())+'&';
+  }
+  if(targets.to) {
+    str += "to="+latlng2str(targets.to.getLatLng())+'&';
+  }
+  if(str.length == 1) str = '';
+  return str;
+};
