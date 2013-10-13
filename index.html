@@ -128,6 +128,9 @@
       <footer>
         <hr>
         <p><a href="http://twitter.com/_phi">@_phi</a> and <a href="http://twitter.com/pleasantprog">@pleasantprog</a>
+        <br><br><span>proud members,</span><br> 
+        <a href="http://byimplication.com"><img src="img/byim.svg" alt="By Implication"></a>
+        </p>
       </footer>
     </div>
     <div id="print"></div>
@@ -189,8 +192,9 @@
 
     <script type="ractive" id="printTemplate">
       <h3>sakay.ph</h3>
-      {{#current}}
-      <ol>
+      {{#results:n}}
+      {{#(divLoaded(n, selected))}}
+      <ol class="{{(divClass(n, selected))}}">
       {{#legs:i}}
       <li class="step-container">
         <div class="step {{className}}">
@@ -261,7 +265,8 @@
       </li>
       {{/legs}}
       </ol>
-      {{/current}}
+      {{/()}}
+      {{/results}}
 
     </script>
 
@@ -415,6 +420,7 @@
     <script src="js/q.min.js"></script>
     <script src="js/Ractive.min.js"></script>
     <script src="js/picoModal-1.0.0.min.js"></script>
+    <script src="js/native.history.js"></script>
     <script src="http://maps.google.com/maps/api/js?libraries=places&sensor=false&key=AIzaSyBLP-naDBEFyAjrnvuzq-EWKAOC_MhN3Bc"></script>
     <script src="leaflet/leaflet.js"></script>
     <script src="leaflet/google.js"></script>

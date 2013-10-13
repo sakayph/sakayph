@@ -81,8 +81,8 @@ var otp = function() {
         date: d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),
         time: '11:59am',
         mode: mode,
-        fromPlace: from.lat+','+from.lng,
-        toPlace: to.lat+','+to.lng
+        fromPlace: latlng2str(from),
+        toPlace: latlng2str(to)
       })
     }
   }

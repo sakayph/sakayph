@@ -414,9 +414,11 @@ footer
   font-size: 17px
   text-align: center
   p
-    margin: 50px
+    margin: 50px auto 35px auto
+    span
+      color: #999
   hr
-    width: 365px
+    width: 380px
     margin: 0 auto
     border-color: $header-bg-closed
   a
@@ -426,6 +428,14 @@ footer
     &:hover
       border-bottom: 1px solid #444
       background: #ccc
+    &:last-child
+      opacity: 0.6
+      border-bottom: 1px solid transparent
+      background: none
+      +transition(all 0.1s)
+      &:hover
+        border-bottom: 1px solid #444
+        opacity: 1
 
 #sidebar
   position: absolute
