@@ -45,14 +45,18 @@ var staticMaps = function() {
   var HEIGHT = 260;
   var WIDTH = 400;
 
+  function formatPoint(point) {
+    return point.lat.toFixed(6)+','+point.lon.toFixed(6);
+  }
+
   return function url(leg) {
     var start = leg.from;
     var end = leg.to;
 
     var queryString = "";
     queryString += "&size="+WIDTH+"x"+HEIGHT;
-    queryString += "&markers=color:green|label:A|"+latlng2str(start);
-    queryString += "&markers=color:red|label:B|"+latlng2str(end);
+    queryString += "&markers=color:green|label:A|"+formatPoint(start);
+    queryString += "&markers=color:red|label:B|"+formatPoint(end);
     queryString += "&path=enc:"+encodeURI(leg.legGeometry.points);
     return API+queryString;
   }
