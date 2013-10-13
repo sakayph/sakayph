@@ -34,6 +34,20 @@ function formatDuration(duration) {
   }
 }
 
+function latlng2str(latlng) {
+  return latlng.lat.toFixed(6)+','+latlng.lng.toFixed(6);
+}
+
+function str2latlng(str) {
+  if(str == null) return null;
+  var split = str.split(",");
+  if(split.length != 2) return null;
+  var lat = split[0];
+  var lng = split[1];
+  if(!isFinite(lat) || !isFinite(lng)) return null;
+  return new L.LatLng(lat, lng);
+}
+
 /* Converting Google to Leaflet */
 function g2lBounds(gBounds) {
   return new L.LatLngBounds(
