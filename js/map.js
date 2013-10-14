@@ -63,6 +63,9 @@ search.addInput = function(id, target) {
 
   map.on('moveend', function() {
     var bounds = l2gBounds(map.getBounds());
+    if(bounds.getNorthEast().equals(bounds.getSouthWest())) {
+      bounds = undefined;
+    }
     searchBox.setBounds(bounds);
   });
 }

@@ -198,7 +198,7 @@ header h2
   position: absolute
   bottom: 0
   right: 0
-  width: 200%
+  width: 2048px
   height: 20px
   background: url("../img/ground.svg") repeat-x
   +animation(pan 15s linear 0 infinite)
@@ -665,3 +665,97 @@ footer
 
 #print
   display: none
+
+@media (max-width: 768px)
+  .container
+    width: 100%
+    padding: 0 6px
+  #faq
+    .columns
+      +column-count(1)
+  #voteplz
+    display: none
+  header
+    height: 270px
+    h1
+      font-size: 32px
+      top: 32px
+    h2
+      color: #fff
+      font-size: 14px
+      margin-top: 100px
+  section
+    h3
+      font-size: 24px
+  #vroom
+    +transform-origin( center bottom )
+    +transform( scale(0.75) )
+    img
+      position: absolute
+      bottom: 0
+      display: block
+      &:nth-child(1)
+        left: -100px
+      &:nth-child(2)
+        left: 30px
+      &:nth-child(3)
+        left: 250px
+  #do-things
+    height: 500px
+  .landinginfo
+    width: 100%
+    +box-sizing(border-box)
+    padding: 0 10px
+  #search-container
+    top: 280px
+  #search
+    margin: 0
+    .view-toggle
+      display: none
+    input[type="text"]
+      +transition(none)
+      width: -webkit-calc(100% - 20px)
+      width: calc(100% - 20px)
+    #to
+      top: 150px
+    #get-route
+      top: 210px
+      padding: 6px 8px
+  #sms-info
+    margin-top: 270px
+    .iphone
+      display: none
+  #map-container
+    display: none
+  #sidebar
+    position: absolute
+    top: 0
+    left: 0
+  body.mapmode
+    h1
+      display: none
+    header
+      height: 130px
+    #search-container
+      #search
+        width: 100%
+        margin-left: 0
+      #get-route
+        display: none
+      input[type="text"]
+        width: 290px
+      #from
+        top: 0px
+        left: 12px
+      #to
+        left: 12px
+        top: 58px
+      #swap
+        top: 42px
+        left: 140px
+    #sidebar
+      left: 0
+      position: relative
+      max-height: none
+      max-width: none
+      width: 100%
