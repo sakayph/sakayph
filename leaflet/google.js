@@ -137,7 +137,7 @@ L.Google = L.Class.extend({
 		if (!this._google) return;
 		this._resize();
 
-		var center = e && e.latlng ? e.latlng : this._map.getCenter();
+		var center = e && e.target && e.target.latlng ? e.target.latlng : this._map.getCenter();
 		var _center = new google.maps.LatLng(center.lat, center.lng);
 
 		this._google.setCenter(_center);
