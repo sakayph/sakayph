@@ -4,6 +4,6 @@ Sakay.ph is a webapp that aims to help people use jeepneys, buses, and trains in
 
 Originally built for the [Philippine Transit App Challenge](http://philippine-transit.hackathome.com).
 
-This is the webapp side that displays a map and allows you to route using it. The SMS gateway is found at https://github.com/thatsmydoing/sakay-gateway
+This is the webapp side that displays a map and allows you to route using it. The SMS gateway is found at https://github.com/sakay/sakay-gateway
 
 Our back-end can be found at http://maps.pleasantprogrammer.com/ — please let us know if you’re using it!

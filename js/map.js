@@ -8,7 +8,6 @@ map.addLayer(new L.Google('ROADMAP'));
 // give allowance for sidebar
 var fitPadding = { paddingTopLeft: [300, 10], paddingBottomRight: [10, 10] };
 
-var searchDone = false;
 var historyInitialized = false;
 
 var progress = new Ractive({
@@ -32,34 +31,23 @@ var search = new Ractive({
 search.addInput = function(id, target) {
   var input = document.getElementById(id);
   var searchBox = new google.maps.places.SearchBox(input);
-
-  google.maps.event.addListener(searchBox, 'places_changed', function() {
+  var select = function() {
     var places = searchBox.getPlaces();
+    var options = {};
     if(places.length > 0) {
       var place = places[0];
       var latlng = g2lLatLng(place.geometry.location);
-      setTimeout(function() {
-        map.setView(latlng, 14);
-      }, 0);
+      if(document.body.className != "mapmode") {
+        options.animate = false;
+      }
+      map.setView(latlng, 14, options);
       search.setTarget(target, latlng, true);
     }
-    viewMode("map");
-  });
+    viewMode("map", latlng);
+  };
 
-  // sorry thomas, I'll clean this up
-
-  search.on('go', function() {
-    var places = searchBox.getPlaces();
-    if(places.length > 0) {
-      var place = places[0];
-      var latlng = g2lLatLng(place.geometry.location);
-      setTimeout(function() {
-        map.setView(latlng, 14);
-      }, 0);
-      search.setTarget(target, latlng, true);
-    }
-    viewMode("map")
-  });
+  google.maps.event.addListener(searchBox, 'places_changed', select);
+  search.on('go', select);
 
   map.on('moveend', function() {
     var bounds = l2gBounds(map.getBounds());
@@ -71,7 +59,6 @@ search.addInput = function(id, target) {
 }
 
 search.setTarget = function(name, latlng, address) {
-  searchDone = true;
   var a = name;
   var b = "to";
   if(a == "to") {
@@ -124,7 +111,7 @@ search.unsetTarget = function(target) {
 search.observe('targets', function(targets) {
   if(historyInitialized) {
     var params = buildUrlParams(targets);
-    History.replaceState(null, null, params);
+    History.replaceState(null, document.title, params);
   }
   if(!targets.from || !targets.to) return;
   var self = this;
@@ -544,7 +531,7 @@ router.on({
   }
   else if(!fromLatLng && !toLatLng) {
     otp.metadata.then(function(data) {
-      if(!searchDone) {
+      if(map.center == null) {
         map.setView([data.centerLatitude, data.centerLongitude], 12);
       }
     });
