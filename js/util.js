@@ -27,7 +27,7 @@ function formatDuration(duration) {
     }
   }
   else if(minutes > 60) {
-    return hours+'h '+(minutes % 60)+'m'; 
+    return hours+'h '+(minutes % 60)+'m';
   }
   else {
     return minutes+' min';
@@ -126,7 +126,7 @@ function decodePoints(n) {
   return points;
 }
 
-function viewMode(input) {
+function viewMode(input, latlng) {
 
   var body = document.body;
 
@@ -150,12 +150,14 @@ function viewMode(input) {
     }
   }
 
-  window.setTimeout(refitMap, 340);
-  window.setTimeout(refitMap, 810);
+  if(body.className == "mapmode") {
+    window.setTimeout(refitMap, 340);
+    window.setTimeout(refitMap, 810);
+  }
 
 }
 
-function refitMap () {
+function refitMap() {
   map.invalidateSize();
 }
 
