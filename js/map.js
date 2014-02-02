@@ -124,7 +124,7 @@ search.unsetTarget = function(target) {
 search.observe('targets', function(targets) {
   if(historyInitialized) {
     var params = buildUrlParams(targets);
-    History.replaceState(null, null, params);
+    History.replaceState(null, document.title, params);
   }
   if(!targets.from || !targets.to) return;
   var self = this;
