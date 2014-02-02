@@ -6,4 +6,4 @@ Originally built for the [Philippine Transit App Challenge](http://philippine-tr
 
 This is the webapp side that displays a map and allows you to route using it. The SMS gateway is found at https://github.com/sakay/sakay-gateway
 
-Our back-end can be found at http://maps.pleasantprogrammer.com/ — please let us know if you’re using it!
+Our back-end can be found at http://planner.sakay.ph/ — please let us know if you’re using it!
