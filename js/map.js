@@ -34,7 +34,7 @@ search.addInput = function(id, target) {
   var select = function() {
     var places = searchBox.getPlaces();
     var options = {};
-    if(places.length > 0) {
+    if(places != null && places.length > 0) {
       var place = places[0];
       var latlng = g2lLatLng(place.geometry.location);
       if(document.body.className != "mapmode") {
