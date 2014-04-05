@@ -246,10 +246,17 @@ var SendModal = (function() {
       this.on({
         send: function() {
           this.set('sending', true);
-          sakay.send(self.get('number'), itinerary.get('current')).then(function() {
+          sakay.send(self.get('number'), itinerary.get('current'))
+          .then(function() {
             options.modal.close();
             picoModal({
               content: "Your message will be sent in a short while.",
+            });
+          })
+          .fail(function(error) {
+            options.modal.close();
+            picoModal({
+              content: "An error occurred while trying to send the message. Please try again later.",
             });
           });
         }
