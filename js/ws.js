@@ -96,7 +96,8 @@ var sakay = function() {
       method: 'post',
       url: API+endpoint,
       data: data,
-      type: 'text'
+      type: 'text',
+      crossOrigin: true
     }));
   }
 
