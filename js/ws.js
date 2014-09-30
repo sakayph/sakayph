@@ -78,7 +78,7 @@ var otp = function() {
     route: function(from, to, mode) {
       var d = new Date();
       return callApi('/plan', {
-        date: d.getFullYear()+'-'+(d.getMonth())+'-'+(d.getDate()+2),
+        date: d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),
         time: '11:59am',
         mode: mode,
         fromPlace: latlng2str(from),
