@@ -103,6 +103,61 @@ body.mapmode
     top: -10px
     right: -450px
 
+// banner!
+
+
+#beta-banner
+  background: #2A6D45
+  text-align: center
+  border-bottom: 2px solid #215937
+  +animation(banner 1.2s 0.5s 1 both)
+  overflow: hidden
+  a
+    display: inline-block
+    padding: 14px
+    color: rgba(255,255,255,0.85)
+    font-weight: 100
+    text-decoration: none
+    text-shadow: -1px 1px 0 #004416
+    +transition(all 0.2s)
+    +animation(scale-down 1.5s 0.2s 1 backwards)
+  i
+    display: inline-block
+    margin-left: 8px
+    +transition(all 0.2s)
+    +animation(slide-out 0.5s 1.5s 1 backwards)
+  &:hover
+    a
+      color: white
+      padding: 22px
+      text-shadow: -1.5px 1.5px 0 #004416
+    i
+      margin-left: 15px
+
+#app
+  position: relative
+  height: calc(100% - 35px)
+
++keyframes(banner)
+  from
+    max-height: 0
+  to
+    max-height: 70px
+
++keyframes(scale-down)
+  from
+    +transform(scale(3))
+  to
+    +transform(scale(1))
+
++keyframes(slide-out)
+  from
+    margin-left: -15px
+    opacity: 0
+  to
+    margin-left: 8px
+    opacity: 1
+
 // styles!
 
 body, html
@@ -167,7 +222,7 @@ header h2
 
 #vroom
   -webkit-transition: -webkit-transform $state-transition, opacity 2s
-  transition: transform $state-transition, opacity 2s 
+  transition: transform $state-transition, opacity 2s
   position: absolute
   display: block
   bottom: 8px
@@ -250,9 +305,9 @@ header h2
   background: $dark-brown
   color: white
   // WHY HTML5 WHY
-  &::-webkit-input-placeholder 
+  &::-webkit-input-placeholder
     color: $light-brown
-  &::-moz-placeholder 
+  &::-moz-placeholder
     color: $light-brown
   &:-ms-input-placeholder
     color: $light-brown
@@ -668,6 +723,8 @@ footer
   display: none
 
 @media (max-width: 768px)
+  #beta-banner
+    font-size: 70%
   .container
     width: 100%
     padding: 0 6px
