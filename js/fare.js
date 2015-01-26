@@ -319,9 +319,11 @@ var calculateFare = function() {
   return function(leg) {
     var type = leg.mode;
     if(type == 'BUS' || type == 'JEEP') {
-      type = 'puj';
       if(type == 'BUS') {
         type = 'pub_aircon';
+      }
+      else {
+        type = 'puj';
       }
       var distance = Math.ceil(leg.distance / 1000);
       fare = busFares[type][distance];
