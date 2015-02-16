@@ -41,7 +41,7 @@ var geocoder = function() {
 }();
 
 var staticMaps = function() {
-  var API = 'http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBLP-naDBEFyAjrnvuzq-EWKAOC_MhN3Bc&sensor=false';
+  var API = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBLP-naDBEFyAjrnvuzq-EWKAOC_MhN3Bc&sensor=false';
   var HEIGHT = 260;
   var WIDTH = 400;
 
@@ -63,7 +63,7 @@ var staticMaps = function() {
 }();
 
 var otp = function() {
-  var API = 'http://maps.pleasantprogrammer.com/opentripplanner-api-webapp/ws'
+  var API = 'https://maps.pleasantprogrammer.com/opentripplanner-api-webapp/ws'
 
   function callApi(endpoint, data) {
     return Q(reqwest({
@@ -89,7 +89,7 @@ var otp = function() {
 }();
 
 var sakay = function() {
-  var API = 'http://sms.sakay.ph/api';
+  var API = 'https://sms.sakay.ph/api';
 
   function callApi(endpoint, data) {
     return Q(reqwest({
