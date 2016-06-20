@@ -200,46 +200,6 @@ search.on({
 search.addInput('from', 'from');
 search.addInput('to', 'to');
 
-var SendModal = (function() {
-  var _class = Ractive.extend({
-    template: '#modalTemplate',
-    init: function(options) {
-      var self = this;
-      var modalStyle = self.el.style;
-      modalStyle.width = 'auto';
-      modalStyle.margin = "0 0 0 "+(-self.el.clientWidth / 2)+"px";
-      this.on({
-        send: function() {
-          this.set('sending', true);
-          sakay.send(self.get('number'), itinerary.get('current'))
-          .then(function() {
-            options.modal.close();
-            picoModal({
-              content: "Your message will be sent in a short while.",
-            });
-          })
-          .fail(function(error) {
-            options.modal.close();
-            picoModal({
-              content: "An error occurred while trying to send the message. Please try again later.",
-            });
-          });
-        }
-      });
-    }
-  });
-
-  return function(itinerary) {
-    var modal = picoModal({
-      closeButton: false,
-    });
-    return new _class({
-      el: modal.modalElem,
-      modal: modal
-    });
-  }
-})();
-
 var Popup = (function() {
   var _class = Ractive.extend({
     template: '#popupTemplate',

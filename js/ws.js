@@ -87,32 +87,3 @@ var otp = function() {
     }
   }
 }();
-
-var sakay = function() {
-  var API = 'http://sms.sakay.ph/api';
-
-  function callApi(endpoint, data) {
-    return Q(reqwest({
-      method: 'post',
-      url: API+endpoint,
-      data: data,
-      type: 'text',
-      crossOrigin: true
-    }));
-  }
-
-  return {
-    send: function(number, itinerary) {
-      return callApi('/send', {
-        target: number,
-        itinerary: JSON.stringify(itinerary, function(key, value) {
-          if(key == '_ractive') return undefined;
-          if(key == 'marker') return undefined;
-          if(key == 'points') return undefined;
-          if(key == 'polyline') return undefined;
-          return value;
-        })
-      });
-    }
-  }
-}();
