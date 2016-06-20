@@ -117,13 +117,6 @@ search.observe('targets', function(targets) {
   var self = this;
   progress.setLoading(true);
 
-  if(sakay.canLog()) {
-    var fromName = document.getElementById('from').value;
-    var toName = document.getElementById('to').value;
-
-    sakay.log(fromName, targets.from.getLatLng(), toName, targets.to.getLatLng());
-  }
-
   otp.route(
     targets.from.getLatLng(),
     targets.to.getLatLng(),
@@ -134,33 +127,15 @@ search.observe('targets', function(targets) {
     if(data.plan) {
       var results = data.plan.itineraries;
       results.forEach(function(itinerary) {
-        itinerary.legs = itinerary.legs.filter(function(leg) {
-          // because these really aren't that worth it to display
-          return leg.duration > 60000;
-        }).filter(function(leg) {
-          // because OTP sometimes gives bus routes that are non-sensical
-          return leg.mode == "WALK" || leg.distance >= 500;
-        });
-
-        var incomplete = false;
         itinerary.fare = 0;
         itinerary.legs.forEach(function(leg) {
           leg.points = decodePoints(leg.legGeometry.points);
-          if(leg.mode == 'BUS' && leg.routeId.indexOf('PUJ') >= 0) {
-            leg.mode = 'JEEP';
-          }
           leg.className = leg.mode.toLowerCase();
 
           if(leg.mode == 'RAIL') {
             leg.route = leg.route.replace("-", " ");
             leg.className = "rail "+leg.route.replace(" ", "").toLowerCase();
           }
-
-          if(leg.routeId == "ROUTE_880872") {
-            incomplete = true;
-          }
-
-          leg.fare = calculateFare(leg);
           if(leg.fare) {
             itinerary.fare += leg.fare;
             leg.fare = formatFare(leg.fare);
@@ -171,7 +146,7 @@ search.observe('targets', function(targets) {
           itinerary.fare = undefined;
         }
         else {
-          itinerary.fare = formatFare(itinerary.fare, incomplete);
+          itinerary.fare = formatFare(itinerary.fare, false);
         }
       });
       router.set('results', results);
@@ -206,74 +181,6 @@ search.on({
 
 search.addInput('from', 'from');
 search.addInput('to', 'to');
-
-var TrackModal = (function() {
-  var _class = Ractive.extend({
-    template: '#trackWidgetTemplate',
-    append: true,
-    data: {
-      disallowTracking: !sakay.canLog()
-    },
-    init: function() {
-      var modalStyle = this.el.style;
-      modalStyle.width = '500px';
-      modalStyle.margin = "0 0 0 "+(-this.el.clientWidth / 2)+"px";
-      this.observe('disallowTracking', function(val) {
-        sakay.setCanLog(!val);
-      });
-    }
-  });
-
-  return function() {
-    var modal = picoModal({
-      content: document.getElementById('trackingInfo').innerHTML,
-      modalStyles: {}
-    });
-    return new _class({
-      el: modal.modalElem
-    });
-  }
-})();
-
-var SendModal = (function() {
-  var _class = Ractive.extend({
-    template: '#modalTemplate',
-    init: function(options) {
-      var self = this;
-      var modalStyle = self.el.style;
-      modalStyle.width = 'auto';
-      modalStyle.margin = "0 0 0 "+(-self.el.clientWidth / 2)+"px";
-      this.on({
-        send: function() {
-          this.set('sending', true);
-          sakay.send(self.get('number'), itinerary.get('current'))
-          .then(function() {
-            options.modal.close();
-            picoModal({
-              content: "Your message will be sent in a short while.",
-            });
-          })
-          .fail(function(error) {
-            options.modal.close();
-            picoModal({
-              content: "An error occurred while trying to send the message. Please try again later.",
-            });
-          });
-        }
-      });
-    }
-  });
-
-  return function(itinerary) {
-    var modal = picoModal({
-      closeButton: false,
-    });
-    return new _class({
-      el: modal.modalElem,
-      modal: modal
-    });
-  }
-})();
 
 var Popup = (function() {
   var _class = Ractive.extend({
@@ -394,14 +301,6 @@ itinerary.observe('current', function(val, oldVal) {
 });
 
 itinerary.on({
-  sendSMS: function() {
-    if(itinerary.get('current')) {
-      new SendModal();
-    }
-    else {
-      picoModal("Search for a route and we can send the directions to you via SMS.");
-    }
-  },
   print: function() {
     if(itinerary.get('current')) {
       printView.set('show', true);

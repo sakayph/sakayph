@@ -63,7 +63,7 @@ var staticMaps = function() {
 }();
 
 var otp = function() {
-  var API = 'https://maps.pleasantprogrammer.com/opentripplanner-api-webapp/ws'
+  var API = 'http://sakay.ph/api'
 
   function callApi(endpoint, data) {
     return Q(reqwest({
@@ -74,7 +74,10 @@ var otp = function() {
   }
 
   return {
-    metadata: callApi('/metadata'),
+    metadata: Q(reqwest({
+      url: 'http://sakay.ph/opentripplanner-api-webapp/ws/metadata',
+      type: 'jsonp',
+    })),
     route: function(from, to, mode) {
       var d = new Date();
       return callApi('/plan', {
@@ -84,51 +87,6 @@ var otp = function() {
         fromPlace: latlng2str(from),
         toPlace: latlng2str(to)
       })
-    }
-  }
-}();
-
-var sakay = function() {
-  var API = 'https://sms.sakay.ph/api';
-
-  function callApi(endpoint, data) {
-    return Q(reqwest({
-      method: 'post',
-      url: API+endpoint,
-      data: data,
-      type: 'text',
-      crossOrigin: true
-    }));
-  }
-
-  return {
-    canLog: function() {
-      return localStorage.getItem('disallow_log') != 'true';
-    },
-    setCanLog: function(val) {
-      localStorage.setItem('disallow_log', !val);
-    },
-    log: function(fromName, fromTarget, toName, toTarget) {
-      callApi('/log', {
-        fromName: fromName,
-        fromLat: fromTarget.lat,
-        fromLng: fromTarget.lng,
-        toName: toName,
-        toLat: toTarget.lat,
-        toLng: toTarget.lng
-      });
-    },
-    send: function(number, itinerary) {
-      return callApi('/send', {
-        target: number,
-        itinerary: JSON.stringify(itinerary, function(key, value) {
-          if(key == '_ractive') return undefined;
-          if(key == 'marker') return undefined;
-          if(key == 'points') return undefined;
-          if(key == 'polyline') return undefined;
-          return value;
-        })
-      });
     }
   }
 }();

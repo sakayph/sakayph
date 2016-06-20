@@ -12,7 +12,7 @@ function formatFare(fare, incomplete) {
 
 function formatDuration(duration) {
   if(isNaN(duration)) return '';
-  var minutes = Math.floor(duration / 1000 / 60);
+  var minutes = Math.floor(duration / 60);
   var hours = Math.floor(minutes / 60);
 
   if(minutes == 0) {

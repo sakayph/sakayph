@@ -41,9 +41,8 @@
         <div id="sms-info" class="landinginfo">
           <h3>Go mobile with SMS</h3>
           <h4>Get directions on your mobile phone.</h4>
-          <img class="iphone" src="img/iphone.svg" alt="This is an iPhone, but it works fabulously with normal phones too!">
-          <p>Send to <strong>0999 802 5648</strong>:</p>
-          <p>ROUTE <strong>origin</strong> TO <strong>destination</strong></p>
+          <p>We used to have route via SMS available, but it went down a lot. Plus we weren't too happy with it,
+             so until further notice, it is discontinued.</p>
         </div>
       </div>
     </section>
@@ -86,10 +85,6 @@
             </h4>
             <p>Sorry about that — the data is graciously provided by the DOTC, ASTI, etc., and is out of our control. You're welcome to help out, though. Why not check out <a href="http://philippine-transit.hackathome.com/forum/general/">their forum</a>, or hit us up on Twitter?
 
-            <h4>The SMS search gives me weird, far-away results.</h4>
-
-            <p>Unfortunately, there are limitations when using SMS, like no auto-complete. Try to be as specific as you can. For example, search for either <strong>"La Salle Greenhills"</strong> or <strong>"La Salle Taft"</strong> instead of just <strong>"La Salle"</strong>.
-
             <h4>Who made this thing, anyway?
             </h4>
             <p>Sakay.ph was built by <a href="http://pleasantprogrammer.com">Thomas Dy</a>, and designed by <a rel="author" href="https://plus.google.com/101197263943951578416?rel=author">Philip Cheang</a>. We do awesome stuff at <a href="http://byimplication.com">By Implication</a>, which you should totes check out. (some of our projects include <a href="http://storylark.ph">storylark.ph</a> and <a href="http://sari.ph">sari.ph</a>, among others.)
@@ -112,11 +107,13 @@
             </h4>
             <p>This is <a href="https://bugs.webkit.org/show_bug.cgi?id=100568">a bug in Safari</a>. :( it’s fixed in <a href="http://www.apple.com/osx/preview/">Mavericks</a>. Please try Chrome, Firefox, Opera, or even IE 10 for now (really, everything else!)
 
-            <h4>Privacy disclaimer:
-            </h4>
-            <p><a style="cursor:pointer" onclick="new TrackModal()">Click here for more.</a></p>
-            </div>
+            <h4>Do you still not have statistics after all this time?</h4>
 
+            <p>We still don't have a nice UI for visualizing things, but we do have <a href="http://blog.sakay.ph/understanding-data-sakay-ph-stats/">some posts</a> in our <a href="http://blog.sakay.ph/">blog</a> that might interest you.</p>
+
+            <h4>This page looks sort of different from how it was before.</h4>
+
+            <p>We took out some features that we no longer provide. Rest assured; you're not missing out on anything. If you're curious how it looked like before, you're free to check out <a href="https://github.com/sakayph/sakayph">the source</a>.</p>
         </div>
 
       </section>
@@ -267,7 +264,6 @@
 
     <script type="ractive" id="itineraryTemplate">
       <h3>directions</h3>
-      <button id="sms-button" proxy-tap="sendSMS"><i class="icon-envelope"></i> Text me</button>
       <button id="print-button" proxy-tap="print"><i class="icon-print"></i> Print</button>
       {{#current}}
       <ol>
@@ -389,19 +385,6 @@
       {{/loading}}
     </script>
 
-    <script type="template" id="trackingInfo">
-      <p class="tracking">We collect searches (origin + destination) and timestamps. This is to improve the service, and hopefully to also help the transit agencies understand how people travel. (better trains?)
-
-      <p class="tracking no">We *don’t* collect any personally identifiable information like IP addresses, your location, fingerprints, or favorite spice girl, ’cause that’d be evil and creepy.
-
-      <p class="tracking opt">If you’re a paranoid android, you can opt out here. Don’t believe us? <a href="https://github.com/sakayph/sakayph">Hit us on Github</a>.
-
-    </script>
-
-    <script type="ractive" id="trackWidgetTemplate">
-      <p class="tracking check"><label><input type="checkbox" checked="{{disallowTracking}}"> Opt-out of logging</label>
-    </script>
-
     <script type="text/javascript">
       (function() {
         var config = {
@@ -420,7 +403,6 @@
     <script src="leaflet/leaflet.js"></script>
     <script src="leaflet/google.js"></script>
     <script src="js/util.js"></script>
-    <script src="js/fare.js"></script>
     <script src="js/ws.js"></script>
     <script src="js/map.js"></script>
   </body>
