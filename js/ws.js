@@ -102,22 +102,6 @@ var sakay = function() {
   }
 
   return {
-    canLog: function() {
-      return localStorage.getItem('disallow_log') != 'true';
-    },
-    setCanLog: function(val) {
-      localStorage.setItem('disallow_log', !val);
-    },
-    log: function(fromName, fromTarget, toName, toTarget) {
-      callApi('/log', {
-        fromName: fromName,
-        fromLat: fromTarget.lat,
-        fromLng: fromTarget.lng,
-        toName: toName,
-        toLat: toTarget.lat,
-        toLng: toTarget.lng
-      });
-    },
     send: function(number, itinerary) {
       return callApi('/send', {
         target: number,

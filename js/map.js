@@ -117,13 +117,6 @@ search.observe('targets', function(targets) {
   var self = this;
   progress.setLoading(true);
 
-  if(sakay.canLog()) {
-    var fromName = document.getElementById('from').value;
-    var toName = document.getElementById('to').value;
-
-    sakay.log(fromName, targets.from.getLatLng(), toName, targets.to.getLatLng());
-  }
-
   otp.route(
     targets.from.getLatLng(),
     targets.to.getLatLng(),
@@ -206,34 +199,6 @@ search.on({
 
 search.addInput('from', 'from');
 search.addInput('to', 'to');
-
-var TrackModal = (function() {
-  var _class = Ractive.extend({
-    template: '#trackWidgetTemplate',
-    append: true,
-    data: {
-      disallowTracking: !sakay.canLog()
-    },
-    init: function() {
-      var modalStyle = this.el.style;
-      modalStyle.width = '500px';
-      modalStyle.margin = "0 0 0 "+(-this.el.clientWidth / 2)+"px";
-      this.observe('disallowTracking', function(val) {
-        sakay.setCanLog(!val);
-      });
-    }
-  });
-
-  return function() {
-    var modal = picoModal({
-      content: document.getElementById('trackingInfo').innerHTML,
-      modalStyles: {}
-    });
-    return new _class({
-      el: modal.modalElem
-    });
-  }
-})();
 
 var SendModal = (function() {
   var _class = Ractive.extend({
