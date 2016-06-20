@@ -63,7 +63,7 @@ var staticMaps = function() {
 }();
 
 var otp = function() {
-  var API = 'http://maps.pleasantprogrammer.com/opentripplanner-api-webapp/ws'
+  var API = 'http://sakay.ph/api'
 
   function callApi(endpoint, data) {
     return Q(reqwest({
@@ -74,7 +74,10 @@ var otp = function() {
   }
 
   return {
-    metadata: callApi('/metadata'),
+    metadata: Q(reqwest({
+      url: 'http://sakay.ph/opentripplanner-api-webapp/ws/metadata',
+      type: 'jsonp',
+    })),
     route: function(from, to, mode) {
       var d = new Date();
       return callApi('/plan', {
