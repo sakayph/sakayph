@@ -436,11 +436,10 @@ router.on({
     map.setView(toLatLng, 14);
   }
   else if(!fromLatLng && !toLatLng) {
-    otp.metadata.then(function(data) {
-      if(map.center == null) {
-        map.setView([data.centerLatitude, data.centerLongitude], 12);
-      }
-    });
+    map.setView([
+      14.604047669197785,
+      120.98754472894267
+    ], 12);
   }
 
   if(setTarget('from', fromLatLng) | setTarget('to', toLatLng)) {
