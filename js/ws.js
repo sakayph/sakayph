@@ -74,10 +74,6 @@ var otp = function() {
   }
 
   return {
-    metadata: Q(reqwest({
-      url: 'http://sakay.ph/opentripplanner-api-webapp/ws/metadata',
-      type: 'jsonp',
-    })),
     route: function(from, to, mode) {
       var d = new Date();
       return callApi('/plan', {
